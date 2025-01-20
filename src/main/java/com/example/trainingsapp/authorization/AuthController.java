@@ -2,7 +2,6 @@ package com.example.trainingsapp.authorization;
 
 import com.example.trainingsapp.authorization.api.AuthService;
 import com.example.trainingsapp.authorization.api.dto.UserLoginDTO;
-import com.example.trainingsapp.user.api.UserRepository;
 import com.example.trainingsapp.user.api.dto.UserDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserDTO userDTO) {
+        authService.registerUser(userDTO);
         return new ResponseEntity<>("User created correctly", HttpStatus.CREATED);
     }
 

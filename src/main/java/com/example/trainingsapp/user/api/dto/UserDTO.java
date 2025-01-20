@@ -18,7 +18,7 @@ public class UserDTO {
     @Max(60)
     private int age;
 
-    @NotNull
+    @NotNull(message = "email is mandatory")
     @Email(message = "invalid email address")
     private String email;
 
@@ -26,10 +26,13 @@ public class UserDTO {
     @Size(min = 2, max = 16, message = "username must be between 2 and 16 characters")
     private String username;
 
+    @NotBlank(message = "password is mandatory")
     @Pattern(regexp = "^[a-zA-Z0-9.]{10}$", message = "Password muss contain exactly 10 characters and can contain " +
             "only letters and digits")
-    @NotBlank(message = "invalid password")
     private String password;
+
+    public UserDTO() {
+    }
 
     public UserDTO(String firstname, String lastname, int age, String email, String username, String password) {
         this.firstname = firstname;

@@ -1,6 +1,5 @@
 package com.example.trainingsapp.authorization.impl;
 
-import com.example.trainingsapp.authorization.impl.AuthServiceImpl;
 import com.example.trainingsapp.general.exception.AppRuntimeException;
 import com.example.trainingsapp.general.exception.ErrorCode;
 import com.example.trainingsapp.user.api.UserRepository;
