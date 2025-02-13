@@ -1,5 +1,8 @@
 package com.example.trainingsapp.general.exception.error;
 
+import lombok.Data;
+
+@Data
 public class ErrorResponseDTO {
     private String status; // "W001",
     private String message; //  "WALLETS_RETRIEVING_ERROR",
@@ -12,38 +15,6 @@ public class ErrorResponseDTO {
         this.status = status;
         this.message = message;
         this.description = description;
-        this.statusCode = statusCode;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 }

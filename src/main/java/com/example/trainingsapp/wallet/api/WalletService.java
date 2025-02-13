@@ -3,9 +3,11 @@ package com.example.trainingsapp.wallet.api;
 import com.example.trainingsapp.wallet.api.dto.WalletCreateDTO;
 import com.example.trainingsapp.wallet.api.dto.WalletDTO;
 import com.example.trainingsapp.wallet.api.dto.WalletUpdateDTO;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-
+@Validated
 public interface WalletService {
     WalletDTO createWallet(WalletCreateDTO createWalletDTO, Long userId);
 

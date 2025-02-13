@@ -53,7 +53,7 @@ public class WalletController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<WalletDTO> updateWalletName(@Min(1) @NotNull @PathVariable Long id,
-                                                      @Valid @RequestBody WalletUpdateDTO walletUpdateDTO, Principal principal) {
+                                                       @Valid @RequestBody WalletUpdateDTO walletUpdateDTO, Principal principal) {
         String email = principal.getName();
         User user = userService.findUserByEmail(email);
         Long userId = user.getId();

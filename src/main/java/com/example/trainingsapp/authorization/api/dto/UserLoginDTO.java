@@ -8,19 +8,27 @@ import jakarta.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class UserLoginDTO {
-    private @Email @NotNull String email;
-    private @Pattern(regexp = "^[a-zA-Z0-9.]{10}$", message = "Password muss contain exactly 10 characters and can contain only letters and digits") @NotBlank(message = "invalid password") String password;
+    @Email
+    @NotNull
+    private String email;
+    @Pattern(regexp = "^[a-zA-Z0-9.]{10}$",
+            message = "Password muss contain exactly 10 characters and can contain only letters and digits")
+    @NotBlank(message = "password is mandatory")
+    private String password;
 
     public UserLoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public String email() {
+    public UserLoginDTO() {
+    }
+
+    public String getEmail() {
         return email;
     }
 
-    public String password() {
+    public String getPassword() {
         return password;
     }
 

@@ -58,7 +58,7 @@ class AuthServiceImplLoginTest {
         User userFromDb = User.builder().email(userEmail).password(encodedPassword).build();
 
         when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(userFromDb));
-        when(passwordEncoder.matches(userLoginDTO.password(), userFromDb.getPassword())).thenReturn(true);
+        when(passwordEncoder.matches(userLoginDTO.getPassword(), userFromDb.getPassword())).thenReturn(true);
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
         when(userDetailsService.loadUserByUsername(userEmail)).thenReturn(
                 org.springframework.security.core.userdetails.User.builder().username(userEmail)

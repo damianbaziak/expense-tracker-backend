@@ -43,7 +43,7 @@ class AuthRegisterControllerTest {
     private static final String USERNAME = "Example username";
     private static final String PASSWORD = "String10ch";
     private static final String USERNAME_1_CHAR_MORE = "fdsgsDAg345_4534m";
-    private static final String PASSWORD_1_CHAR_MORE = "0123456789.";
+    private static final String PASSWORD_1_CHAR_MORE = "String11cha";
     private static final String PASSWORD_WRONG_PATTERN = "§$fdg,,&/%$§";
 
     @MockBean

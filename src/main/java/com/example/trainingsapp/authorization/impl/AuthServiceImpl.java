@@ -56,20 +56,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String loginUser(UserLoginDTO userLoginDTO) {
-        Optional<User> userFromDb = userRepository.findByEmail(userLoginDTO.email());
+        Optional<User> userFromDb = userRepository.findByEmail(userLoginDTO.getEmail());
         if (userFromDb.isEmpty()) {
             throw new AppRuntimeException(ErrorCode.U002, "User with this email not exists");
         }
 
         User user = userFromDb.get();
-        if (!passwordEncoder.matches(userLoginDTO.password(), user.getPassword())) {
+        if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
             throw new AppRuntimeException(ErrorCode.U002, "User with this email or password not exists");
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                userLoginDTO.email(), userLoginDTO.password()));
+                userLoginDTO.getEmail(), userLoginDTO.getPassword()));
 
-        return jwtService.generateToken(userDetailsService.loadUserByUsername(userLoginDTO.email()));
+        return jwtService.generateToken(userDetailsService.loadUserByUsername(userLoginDTO.getEmail()));
 
     }
 

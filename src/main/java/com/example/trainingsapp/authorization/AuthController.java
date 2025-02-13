@@ -1,6 +1,7 @@
 package com.example.trainingsapp.authorization;
 
 import com.example.trainingsapp.authorization.api.AuthService;
+import com.example.trainingsapp.authorization.api.dto.AuthAccessTokenDTO;
 import com.example.trainingsapp.authorization.api.dto.UserLoginDTO;
 import com.example.trainingsapp.user.api.dto.UserDTO;
 import jakarta.validation.Valid;
@@ -28,7 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDTO userLoginDTO) {
-        return new ResponseEntity<>(authService.loginUser(userLoginDTO), HttpStatus.OK);
+    public ResponseEntity<AuthAccessTokenDTO> authenticateUser(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+        String accessToken = authService.loginUser(userLoginDTO);
+        return new ResponseEntity<>(new AuthAccessTokenDTO(accessToken), HttpStatus.OK);
     }
 }

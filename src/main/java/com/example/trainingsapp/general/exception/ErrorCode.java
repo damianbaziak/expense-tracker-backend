@@ -14,7 +14,9 @@ public enum ErrorCode {
     W001("W001", "WALLET_NOT_FOUND", 404),
     W002("W002", "USER_IS_NOT_WALLET_OWNER", 403),
 
-    TEA001("TEA001", "VALIDATION_FAILED", 400);
+    TEA001("TEA001", "VALIDATION_FAILED", 400),
+    TEA002("TEA002", "ENDPOINT_DOES_NOT_EXISTS", 400);
+
 
     private final String businessCode;
     private final String businessMessage;

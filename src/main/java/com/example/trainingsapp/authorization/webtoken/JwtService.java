@@ -21,7 +21,7 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, String> claims = new HashMap<>();
-        claims.put("iss", "https://secure.genuinecoder.com");
+        claims.put("iss", "https://expensetracker.com");
         return Jwts.builder()
                 .claims(claims)
                 // For which User we generate the Token
@@ -45,12 +45,11 @@ public class JwtService {
     }
 
     private Claims getClaims(String jwt) {
-        Claims claims = Jwts.parser()
+        return Jwts.parser()
                 .verifyWith(generateKey())
                 .build()
                 .parseSignedClaims(jwt)
                 .getPayload();
-        return claims;
     }
 
     public boolean isTokenValid(String jwt) {

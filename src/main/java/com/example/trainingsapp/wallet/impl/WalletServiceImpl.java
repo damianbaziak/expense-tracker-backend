@@ -17,14 +17,17 @@ import com.example.trainingsapp.wallet.api.dto.WalletDTO;
 import com.example.trainingsapp.wallet.api.dto.WalletUpdateDTO;
 import com.example.trainingsapp.wallet.api.model.Wallet;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Validated
 public class WalletServiceImpl implements WalletService {
     @Autowired
     private WalletModelMapper walletModelMapper;

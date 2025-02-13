@@ -4,18 +4,20 @@ import com.example.trainingsapp.general.exception.AppRuntimeException;
 import com.example.trainingsapp.general.exception.ErrorCode;
 import com.example.trainingsapp.general.exception.ErrorStrategy;
 import com.example.trainingsapp.general.exception.error.ErrorResponseDTO;
+import com.example.trainingsapp.general.exception.error.ErrorResponseDescriptionListDTO;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestControllerAdvice
@@ -24,25 +26,67 @@ public class GlobalExceptionHandler {
     @Autowired
     private ErrorStrategy errorStrategy;
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException exception) {
-        Map<String, String> errorMap = new HashMap<>();
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponseDescriptionListDTO> handleInvalidArgument(final MethodArgumentNotValidException exception) {
+        log.error("MethodArgumentNotValidException in: {}", exception.getObjectName());
+
+        List<String> errorList = new ArrayList<>();
 
         exception.getBindingResult().getFieldErrors().forEach(error -> {
-            errorMap.put(error.getField(), error.getDefaultMessage());
+            String errorMessage = String.format("error: field: %s, default message: %s, rejected value: %s",
+                    error.getField(),
+                    error.getDefaultMessage(),
+                    error.getRejectedValue());
+
+            log.error(errorMessage);
+
+            errorList.add(errorMessage);
+
         });
-        return errorMap;
+
+        return new ResponseEntity<>(
+                new ErrorResponseDescriptionListDTO(
+                        ErrorCode.TEA001.getBusinessCode(),
+                        errorStrategy.returnExceptionMessage(ErrorCode.TEA001.getBusinessMessage()),
+                        errorStrategy.returnExceptionDescriptionList(errorList),
+                        ErrorCode.TEA001.getHttpStatus()),
+                HttpStatus.valueOf(ErrorCode.TEA001.getHttpStatus())
+        );
     }
 
 
     @ExceptionHandler(AppRuntimeException.class)
-    public ResponseEntity<String> handleAppRuntimeException(AppRuntimeException exception) {
-        return ResponseEntity.status(exception.getHttpStatusCode()).body(exception.getDescription());
+    public ResponseEntity<ErrorResponseDTO> handleAppRuntimeException(final AppRuntimeException exception) {
+        log.error("handleAppRuntimeException message: {}, description: {}",
+                exception.getMessage(),
+                exception.getDescription()
+        );
+        return new ResponseEntity<>(
+                new ErrorResponseDTO(
+                        exception.getErrorCode().getBusinessCode(),
+                        errorStrategy.returnExceptionMessage(exception.getMessage()),
+                        errorStrategy.returnExceptionDescription(exception.getDescription()),
+                        exception.getHttpStatusCode()),
+                HttpStatus.valueOf(exception.getErrorCode().getHttpStatus()));
+    }
+/*
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAppRuntimeException(final NoHandlerFoundException exception) {
+        return new ResponseEntity<>(new ErrorResponseDTO(
+                exception.getErrorCode().getBusinessCode(),
+                errorStrategy.returnExceptionMessage(exception.getErrorCode().getBusinessMessage()),
+                errorStrategy.returnExceptionDescription(exception.getDescription()),
+                exception.getErrorCode().getHttpStatus()),
+                HttpStatus.valueOf(exception.getErrorCode().getHttpStatus())
+
+        );
     }
 
+ */
+
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponseDTO> handleConstraintViolationException(final ConstraintViolationException e) {
+    public ResponseEntity<ErrorResponseDTO> handleConstraintViolationException(
+            final ConstraintViolationException e) {
         log.error("ConstraintViolationException: {}", e.getMessage());
 
         return new ResponseEntity<>(
@@ -56,5 +100,20 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponseDTO> handleHttpMessageReadableException(
+            final HttpMessageNotReadableException ex) {
+        log.error("handleHttpMessageReadableException: {}", ex.getMessage());
+
+        return new ResponseEntity<>(
+                new ErrorResponseDTO(
+                        ErrorCode.TEA001.getBusinessCode(),
+                        errorStrategy.returnExceptionMessage(ErrorCode.TEA001.getBusinessMessage()),
+                        errorStrategy.returnExceptionDescription(String.format("Throwable exception %s",
+                                ex.getMessage())),
+                        ErrorCode.TEA001.getHttpStatus()),
+                HttpStatus.valueOf(ErrorCode.TEA001.getHttpStatus())
+        );
+    }
 
 }

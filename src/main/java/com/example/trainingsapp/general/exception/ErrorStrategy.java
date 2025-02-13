@@ -1,6 +1,7 @@
 package com.example.trainingsapp.general.exception;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ErrorStrategy {
     String returnExceptionMessage(String message);
