@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,8 +28,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.stream.Stream;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AuthController.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
@@ -116,15 +118,20 @@ class AuthRegisterControllerTest {
         UserDTO userDTO = new UserDTO(FIRSTNAME, LASTNAME, AGE, EMAIL,
                 USERNAME, PASSWORD);
 
-        // when
+        // when & then
         ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().string("User created correctly"));
 
-        // then
-        result.andExpect(status().isCreated());
-        result.andExpect(content().string("User created correctly"));
 
+        Mockito.verify(authService, Mockito.times(1)).registerUser(argThat(dto ->
+                dto.getEmail().equals(EMAIL)
+                        && dto.getUsername().equals(USERNAME)
+                        && dto.getPassword().equals(PASSWORD)
+        ));
+        Mockito.verifyNoMoreInteractions(authService);
     }
 
     @ParameterizedTest
@@ -132,14 +139,13 @@ class AuthRegisterControllerTest {
     @DisplayName("Should return status 400 BadRequest and correct error message when firstname is invalid")
     void registerUser_invalidFirstname_returnsBadRequestAndErrorMessage(
             UserDTO userDTO, int expectedStatus, String expectedMessage) throws Exception {
-        // when
-        ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
 
-        // then
-        result.andExpect(status().is(expectedStatus));
-        result.andExpect(jsonPath("$.descriptionList[0]").value(Matchers.containsString(expectedMessage)));
+        ResultActions result = mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(MockMvcResultMatchers.status().is(expectedStatus))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.descriptionList[0]").value(
+                        Matchers.containsString(expectedMessage)));
 
     }
 
@@ -148,16 +154,13 @@ class AuthRegisterControllerTest {
     @DisplayName("Should return status 400 BadRequest and correct error message when lastname is invalid")
     void registerUser_invalidLastname_returnsBadRequestAndErrorMessage(
             UserDTO userDTO, int expectedStatus, String expectedMessage) throws Exception {
-        // when
-        ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
 
-        // then
-        result.andExpectAll(
-                MockMvcResultMatchers.status().is(expectedStatus),
-                MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
-                        .value(Matchers.containsString(expectedMessage)));
+        ResultActions result = mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(MockMvcResultMatchers.status().is(expectedStatus))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.descriptionList[0]").value(
+                        Matchers.containsString(expectedMessage)));
 
     }
 
@@ -165,17 +168,15 @@ class AuthRegisterControllerTest {
     @Test
     @DisplayName("Should return status 400 BadRequest when age is above the maximum limit")
     void registerUser_ageTooHigh_shouldReturnStatusBadRequest() throws Exception {
-        // given
+        //given
         UserDTO userDTO = new UserDTO(FIRSTNAME, LASTNAME, 61, EMAIL,
                 USERNAME, PASSWORD);
 
-        // when
+        //when & then
         ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        // then
-        result.andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isBadRequest());
 
     }
 
@@ -186,13 +187,11 @@ class AuthRegisterControllerTest {
         UserDTO userDTO = new UserDTO(FIRSTNAME, LASTNAME, 15, EMAIL,
                 USERNAME, PASSWORD);
 
-        // when
+        // when & then
         ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        // then
-        result.andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isBadRequest());
 
     }
 
@@ -203,13 +202,11 @@ class AuthRegisterControllerTest {
         UserDTO userDTO = new UserDTO(FIRSTNAME, LASTNAME, AGE, "    ",
                 USERNAME, PASSWORD);
 
-        // when
+        // when & then
         ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        // then
-        result.andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isBadRequest());
 
     }
 
@@ -220,15 +217,12 @@ class AuthRegisterControllerTest {
         UserDTO userDTO = new UserDTO(FIRSTNAME, LASTNAME, AGE, "wrongEmail.com",
                 USERNAME, PASSWORD);
 
-        // when
+        // when & then
         ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        // then
-        result.andExpectAll(
-                MockMvcResultMatchers.status().isBadRequest(),
-                MockMvcResultMatchers.jsonPath("$.message")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
                         .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())));
 
     }
@@ -238,18 +232,18 @@ class AuthRegisterControllerTest {
     @DisplayName("Should return status 400 BadRequest and correct error message when username is invalid")
     void registerUser_invalidUsername_returnsBadRequestAndErrorMessage(
             UserDTO userDTO, int expectedStatus, String expectedMessage) throws Exception {
-        // when
-        ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
 
-        // then
-        result.andExpectAll(
-                MockMvcResultMatchers.status().is(expectedStatus),
-                MockMvcResultMatchers.jsonPath("$.message")
-                        .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
-                MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
-                        .value(Matchers.containsString(expectedMessage)));
+        // when & then
+        ResultActions result = mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpectAll(
+                        MockMvcResultMatchers.status().is(expectedStatus),
+                        MockMvcResultMatchers.jsonPath("$.message")
+                                .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
+                        MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
+                                .value(Matchers.containsString(expectedMessage)));
+        ;
 
     }
 
@@ -258,18 +252,16 @@ class AuthRegisterControllerTest {
     @DisplayName("Should return status 400 BadRequest and correct error message when password is invalid")
     void registerUser_invalidPassword_returnsBadRequestAndErrorMessage(
             UserDTO userDTO, int expectedStatus, String expectedMessage) throws Exception {
-        // when
-        ResultActions result = mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
 
-        // then
-        result.andExpectAll(
-                MockMvcResultMatchers.status().is(expectedStatus),
-                MockMvcResultMatchers.jsonPath("$.message")
-                        .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
-                MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
-                        .value(Matchers.containsString(expectedMessage)));
+        // when and then
+        ResultActions result = mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpectAll(MockMvcResultMatchers.status().is(expectedStatus),
+                        MockMvcResultMatchers.jsonPath("$.message")
+                                .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
+                        MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
+                                .value(Matchers.containsString(expectedMessage)));
 
     }
 

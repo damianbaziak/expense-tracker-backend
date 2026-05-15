@@ -13,15 +13,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-public class AuthControllerIT extends IntegrationTest {
+public class AuthRegisterControllerIT extends IntegrationTest {
 
     private static final String REGISTER_USER_URL = "/api/auth/register";
+
     private static final UserDTO USER_DTO = new UserDTO(
             "test_firstname", "test_lastname", 50, "test@email.com",
             "test_username", "1234567890");
+
     private static final UserDTO USER_DTO_TO_SHORT_PASSWORD = new UserDTO(
             "test_firstname", "test_lastname", 50, "test@email.com",
             "test_username", "123");
+
     private static final UserDTO USER_DTO_INVALID_EMAIL = new UserDTO(
             "test_firstname", "test_lastname", 50, "invalid.email",
             "test_username", "1234567890");

@@ -114,8 +114,6 @@ class AuthLoginControllerTest {
 
         final AuthAccessTokenDTO authAccessTokenDTO = objectMapper.readValue(content, AuthAccessTokenDTO.class);
 
-        System.out.println("JWT Secret: " + secret);
-
         byte[] decodedKey = Base64.getDecoder().decode(secret);
         SecretKey secretKey = Keys.hmacShaKeyFor(decodedKey);
 
