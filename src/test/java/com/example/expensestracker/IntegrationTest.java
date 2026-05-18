@@ -20,7 +20,7 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public abstract class IntegrationTest {
 
-    static final MySQLContainer<?> MY_SQL_CONTAINER;
+    private static final MySQLContainer<?> MY_SQL_CONTAINER;
 
     private static final int TEST_CONTAINER_STARTUP_TIMEOUT = 480;
 

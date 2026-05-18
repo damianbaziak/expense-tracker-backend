@@ -101,7 +101,7 @@ class UserGetControllerTest {
         result.andExpectAll(
                 MockMvcResultMatchers.status().isNotFound(),
                 MockMvcResultMatchers.jsonPath("$.description").value("User does not exist"),
-                MockMvcResultMatchers.jsonPath("$.status").value(ErrorCode.U003.getBusinessCode()));
+                MockMvcResultMatchers.jsonPath("$.businessCode").value(ErrorCode.U003.getBusinessCode()));
     }
 
     @Test

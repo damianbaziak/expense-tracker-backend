@@ -38,7 +38,7 @@ class WalletDeleteServiceImplTest {
     void deleteWallet_walletExists_deletedSuccessfully() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when
@@ -65,7 +65,7 @@ class WalletDeleteServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W001.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W001.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getStatus()));
+                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getErrorBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 
@@ -77,7 +77,7 @@ class WalletDeleteServiceImplTest {
     void deleteWallet_userHasNoPermissions_throwAnException() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when
@@ -88,7 +88,7 @@ class WalletDeleteServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W002.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W002.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getStatus()));
+                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getErrorBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 

@@ -57,7 +57,7 @@ class FinancialTransactionUpdateServiceImplTest {
     void updateFinancialTransaction_validParameters_returnFinancialTransactionDTO() {
         // given
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
-                EXPENSE);
+                CATEGORY_ID_1L, EXPENSE);
 
         FinancialTransactionUpdateDTO transactionUpdateDTO = createTransactionUpdateDTO();
         FinancialTransaction existingTransaction = TestUtils.createFinancialTransactionForTest(EXPENSE);

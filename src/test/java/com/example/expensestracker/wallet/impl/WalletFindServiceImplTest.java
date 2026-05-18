@@ -56,7 +56,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should return walletDTO by existing wallet")
     void findById_whenWalletExists_shouldReturnsWalletDTO() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when
@@ -89,7 +89,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException when user has no permissions")
     void findById_userHasNoPermissions_shouldThrowsException() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when and then
@@ -104,7 +104,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Calculate balance correctly for existing wallet")
     void findById_calculatesBalanceCorrectly() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         List<FinancialTransaction> transactions = createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_1, EXPENSE_AMOUNT_1);
 
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));

@@ -41,6 +41,7 @@ public class FinancialTransactionServiceImpl implements FinancialTransactionServ
         Long walletId = ftCreateDTO.getWalletId();
         Wallet wallet = walletRepository.findByIdAndUserId(walletId, userId).orElseThrow(() ->
                 new AppRuntimeException(ErrorCode.W001, String.format("Wallet with this id: %d not exist", walletId)));
+
         FinancialTransactionCategory ftCategory = findFinancialTransactionCategory(ftCreateDTO.getCategoryId(), userId);
 
         if (ftCreateDTO.getCategoryId() != null && ftCreateDTO.getType() != ftCategory.getType())

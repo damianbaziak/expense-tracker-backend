@@ -54,7 +54,7 @@ class WalletUpdateServiceImplTest {
     void updateWallet_walletExists_shouldReturnWalletDTO() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
 
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
@@ -72,7 +72,7 @@ class WalletUpdateServiceImplTest {
     void updateWallet_walletExists_calculatesCorrectBalance() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
         List<FinancialTransaction> transactions = createTestTransactions();
 
         mockTransactionRepositoryAndMapperBehaviour(wallet, transactions);
@@ -103,7 +103,7 @@ class WalletUpdateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W001.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W001.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getStatus()));
+                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getErrorBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 
@@ -115,7 +115,7 @@ class WalletUpdateServiceImplTest {
     void updateWallet_userHasNoPermissions_throwAnException() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
 
@@ -127,7 +127,7 @@ class WalletUpdateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W002.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W002.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getStatus()));
+                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getErrorBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 

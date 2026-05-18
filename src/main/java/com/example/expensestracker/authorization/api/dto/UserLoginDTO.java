@@ -8,8 +8,10 @@ import jakarta.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class UserLoginDTO {
-    @Email
+
+
     @NotNull
+    @Email(message = "Invalid email format")
     private String email;
     @Pattern(regexp = "^[a-zA-Z0-9.]{10}$",
             message = "Password muss contain exactly 10 characters and can contain only letters and digits")
@@ -30,6 +32,14 @@ public class UserLoginDTO {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

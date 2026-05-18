@@ -139,7 +139,7 @@ class FinancialTransactionCategoryGetControllerTest {
         // then
         result
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status", CoreMatchers.is(ErrorCode.TEA001.getBusinessCode())))
+                .andExpect(jsonPath("$.businessCode", CoreMatchers.is(ErrorCode.TEA001.getBusinessCode())))
                 .andExpect(jsonPath("$.statusCode", CoreMatchers.is(ErrorCode.TEA001.getHttpStatus())));
 
         verify(financialTransactionCategoryService, times(0))

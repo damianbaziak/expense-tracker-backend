@@ -58,12 +58,12 @@ public class AuthServiceImpl implements AuthService {
     public String loginUser(UserLoginDTO userLoginDTO) {
         Optional<User> userFromDb = userRepository.findByEmail(userLoginDTO.getEmail());
         if (userFromDb.isEmpty()) {
-            throw new AppRuntimeException(ErrorCode.U002, "User with this email not exists");
+            throw new AppRuntimeException(ErrorCode.U002, "Invalid email or password");
         }
 
         User user = userFromDb.get();
         if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
-            throw new AppRuntimeException(ErrorCode.U002, "User with this email or password not exists");
+                throw new AppRuntimeException(ErrorCode.U002, "Invalid email or password");
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

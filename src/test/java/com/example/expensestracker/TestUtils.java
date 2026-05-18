@@ -43,9 +43,17 @@ public class TestUtils {
                 .build();
     }
 
+    public static Wallet createWalletForTest(Long id, User user) {
+        return Wallet.builder()
+                .id(id)
+                .user(user)
+                .name(EXAMPLE_WALLET_NAME)
+                .creationDate(DATE_NOW)
+                .build();
+    }
+
     public static Wallet createWalletForTest(User user) {
         return Wallet.builder()
-                .id(WALLET_ID_1L)
                 .user(user)
                 .name(EXAMPLE_WALLET_NAME)
                 .creationDate(DATE_NOW)
@@ -151,7 +159,8 @@ public class TestUtils {
 
     }
 
-    public static FinancialTransactionCategory createFinancialTransactionCategoryForTest(FinancialTransactionType type) {
+    public static FinancialTransactionCategory createFinancialTransactionCategoryForTest(Long id,
+                                                                                         FinancialTransactionType type) {
         return FinancialTransactionCategory.builder()
                 .id(ID_1L)
                 .name(EXAMPLE_CATEGORY_NAME)
@@ -159,6 +168,19 @@ public class TestUtils {
                 .creationDate(DATE_NOW)
                 .build();
     }
+
+
+    public static FinancialTransactionCategory createFinancialTransactionCategoryForTest(FinancialTransactionType type,
+                                                                                         User user) {
+        return FinancialTransactionCategory.builder()
+                .name(EXAMPLE_CATEGORY_NAME)
+                .type(type)
+                .creationDate(DATE_NOW)
+                .user(user)
+                .build();
+    }
+
+
 
     public static FinancialTransactionCategoryDTO createFinancialTransactionCategoryDTOForTest(
             FinancialTransactionType type, Long userId) {

@@ -168,7 +168,7 @@ class FinancialTransactionGetControllerTest {
         resultActions.andExpectAll(
                 MockMvcResultMatchers.status().isNotFound(),
                 MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.FT001.getBusinessMessage()),
-                MockMvcResultMatchers.jsonPath("$.status").value(ErrorCode.FT001.getBusinessCode()),
+                MockMvcResultMatchers.jsonPath("$.businessCode").value(ErrorCode.FT001.getBusinessCode()),
                 MockMvcResultMatchers.jsonPath("$.description").value("Transaction not found"),
                 MockMvcResultMatchers.jsonPath("$.statusCode").value(ErrorCode.FT001.getHttpStatus()));
         Mockito.verify(financialTransactionService, times(1))

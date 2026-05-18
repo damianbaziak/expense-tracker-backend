@@ -91,8 +91,8 @@ class AuthServiceImplLoginTest {
                 userLoginDTO
         ));
 
-        Assertions.assertEquals("User with this email not exists", result.getDescription());
-        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getStatus());
+        Assertions.assertEquals("Invalid email or password", result.getDescription());
+        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getErrorBusinessCode());
         Assertions.assertEquals(ErrorCode.U002.getHttpStatus(), result.getHttpStatusCode());
 
         verify(userRepository, times(1)).findByEmail(userEmail);
@@ -118,8 +118,8 @@ class AuthServiceImplLoginTest {
                 userLoginDTO
         ));
 
-        Assertions.assertEquals("User with this email or password not exists", result.getDescription());
-        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getStatus());
+        Assertions.assertEquals("Invalid email or password", result.getDescription());
+        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getErrorBusinessCode());
         Assertions.assertEquals(ErrorCode.U002.getHttpStatus(), result.getHttpStatusCode());
 
         verify(userRepository, times(1)).findByEmail(userEmail);

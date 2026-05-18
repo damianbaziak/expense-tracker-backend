@@ -86,7 +86,7 @@ class FinancialTransactionCreateServiceImplTest {
                 any(FinancialTransaction.class))).thenReturn(financialTransactionDTO);
 
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
-                EXPENSE);
+                ID_1L, EXPENSE);
         when(financialTransactionCategoryRepository.findByIdAndUserId(any(), any())).thenReturn(
                 Optional.ofNullable(financialTransactionCategory));
 
@@ -123,7 +123,7 @@ class FinancialTransactionCreateServiceImplTest {
                 any(FinancialTransaction.class))).thenReturn(financialTransactionDTO);
 
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
-                INCOME);
+                ID_1L, INCOME);
         when(financialTransactionCategoryRepository.findByIdAndUserId(any(), eq(ID_1L))).thenReturn(
                 Optional.ofNullable(financialTransactionCategory));
 
@@ -175,7 +175,7 @@ class FinancialTransactionCreateServiceImplTest {
                 any(FinancialTransaction.class))).thenReturn(financialTransactionDTO);
 
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
-                EXPENSE);
+                ID_1L, EXPENSE);
         when(financialTransactionCategoryRepository.findByIdAndUserId(any(), any())).thenReturn(
                 Optional.ofNullable(financialTransactionCategory));
 

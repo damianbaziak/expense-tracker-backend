@@ -19,7 +19,7 @@ public class UserDTO {
     private int age;
 
     @NotNull(message = "email is mandatory")
-    @Email(message = "invalid email address")
+    @Email(message = "Invalid email format")
     private String email;
 
     @NotBlank(message = "username is mandatory")

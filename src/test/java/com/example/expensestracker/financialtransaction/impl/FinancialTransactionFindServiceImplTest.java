@@ -57,7 +57,7 @@ class FinancialTransactionFindServiceImplTest {
     void findFinancialTransactionsByWalletId_transactionsExist_returnFinancialTransactionDTOs() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
 
         List<FinancialTransaction> ftList = TestUtils.createFinancialTransactionListForTest(
                 3, wallet, EXPENSE);
@@ -113,7 +113,7 @@ class FinancialTransactionFindServiceImplTest {
     void findFinancialTransactionsByWalletId_noFinancialTransactions_returnEmptyList() {
         // given
         User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(user);
+        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
 
         when(walletRepository.findByIdAndUserId(WALLET_ID_1L, user.getId())).thenReturn(Optional.of(wallet));
         when(financialTransactionRepository.findAllByWalletIdAndWalletUserIdOrderByDateDesc(
@@ -134,7 +134,7 @@ class FinancialTransactionFindServiceImplTest {
         // given
         FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(INCOME);
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
-                INCOME);
+                ID_1L, INCOME);
         FinancialTransaction financialTransaction = TestUtils.createFinancialTransactionForTest(
                 INCOME, financialTransactionCategory);
 

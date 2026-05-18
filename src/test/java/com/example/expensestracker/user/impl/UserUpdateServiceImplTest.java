@@ -77,7 +77,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updateUsername(USER_ID_1L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U003.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U003.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U003.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U003.getHttpStatus())
         );
@@ -96,7 +96,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updateUsername(2L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U004.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U004.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U004.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U004.getHttpStatus())
         );
@@ -140,7 +140,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updatePassword(USER_ID_1L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U003.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U003.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U003.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U003.getHttpStatus())
         );
@@ -159,7 +159,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updatePassword(2L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U004.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U004.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U004.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U004.getHttpStatus())
         );
@@ -203,7 +203,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updateEmail(USER_ID_1L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U003.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U003.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U003.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U003.getHttpStatus())
         );
@@ -222,7 +222,7 @@ class UserUpdateServiceImplTest {
                 AppRuntimeException.class, () -> userService.updateEmail(2L, updateDTO, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getStatus(), ErrorCode.U004.getBusinessCode()),
+                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U004.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U004.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U004.getHttpStatus())
         );

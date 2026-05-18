@@ -51,7 +51,8 @@ class FinancialTransactionCategoryUpdateServiceImplTest {
         FinancialTransactionCategoryUpdateDTO categoryUpdateDTO =
                 new FinancialTransactionCategoryUpdateDTO(NEW_EXAMPLE_CATEGORY_NAME, NEW_TRANSACTION_TYPE);
 
-        FinancialTransactionCategory existingCategory = TestUtils.createFinancialTransactionCategoryForTest(EXPENSE);
+        FinancialTransactionCategory existingCategory = TestUtils.createFinancialTransactionCategoryForTest(
+                CATEGORY_ID_1L, EXPENSE);
 
         FinancialTransactionCategoryDTO expectedCategoryDTO = new FinancialTransactionCategoryDTO();
         expectedCategoryDTO.setName(NEW_EXAMPLE_CATEGORY_NAME);

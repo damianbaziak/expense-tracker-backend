@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 class WalletCreateServiceImplTest {
 
     private static final Long USER_ID_1L = 1L;
+    private static final Long ID_1L = 1L;
     private static final String EXAMPLE_WALLET_NAME = "Example wallet name_";
 
     @Mock
@@ -46,7 +47,7 @@ class WalletCreateServiceImplTest {
     void createWallet_withValidParameters_shouldReturnWallet() {
         // given
         User walletOwner = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(walletOwner);
+        Wallet wallet = TestUtils.createWalletForTest(ID_1L, walletOwner);
         WalletDTO walletDTO = TestUtils.createWalletDTOForTest(USER_ID_1L);
         WalletCreateDTO createDTO = new WalletCreateDTO(EXAMPLE_WALLET_NAME);
 
@@ -82,7 +83,7 @@ class WalletCreateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.U003.getHttpStatus(), result.getHttpStatusCode()),
                 () -> assertEquals(ErrorCode.U003.getBusinessMessage(), result.getMessage()),
-                () -> assertEquals(ErrorCode.U003.getBusinessCode(), result.getStatus()),
+                () -> assertEquals(ErrorCode.U003.getBusinessCode(), result.getErrorBusinessCode()),
                 () -> verify(walletRepository, never()).save(any(Wallet.class)),
                 () -> verify(walletModelMapper, never()).mapWalletEntityToWalletDTO(any(Wallet.class)));
 

@@ -49,7 +49,7 @@ class FinancialTransactionCreateControllerTest {
     private static final Long ID_1L = 1L;
     private static final Long USER_ID_1L = 1L;
     private static final String USER_EMAIL = "example@email.com";
-    private static final String DESCRIPTION = "Example description";
+    private static final String DESCRIPTION = "Example description_";
     private static final Long CATEGORY_ID = 1L;
     private static final Instant DATE = Instant.parse("2024-12-22T14:30:00.500Z");
     private static final BigDecimal negativeAmount = BigDecimal.valueOf(-100.00);
@@ -73,7 +73,7 @@ class FinancialTransactionCreateControllerTest {
         // given
         User user = TestUtils.createUserForTest();
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
-        FinancialTransactionDTO financialTransactionDTO = createFinancialTransactionDTO();
+        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(EXPENSE);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
@@ -96,7 +96,7 @@ class FinancialTransactionCreateControllerTest {
     @Test
     @WithMockUser(username = USER_EMAIL)
     @DisplayName("Should return bad request status when financialTransactionType is null")
-    void createFinancialTransaction_FinancialTransactionTypeNull_shouldReturnStatusBadRequest() throws Exception {
+    void createFinancialTransaction_financialTransactionTypeNull_shouldReturnStatusBadRequest() throws Exception {
         // given
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
         financialTransactionCreateDTO.setType(null);
@@ -159,10 +159,6 @@ class FinancialTransactionCreateControllerTest {
     private FinancialTransactionCreateDTO createFinancialTransactionCreateDTO() {
         return new FinancialTransactionCreateDTO(WALLET_ID_1, ONE, DESCRIPTION, EXPENSE,
                 DATE, CATEGORY_ID);
-    }
-
-    private FinancialTransactionDTO createFinancialTransactionDTO() {
-        return new FinancialTransactionDTO(ID_1L, ONE, DESCRIPTION, EXPENSE, DATE, CATEGORY_ID);
     }
 
 }

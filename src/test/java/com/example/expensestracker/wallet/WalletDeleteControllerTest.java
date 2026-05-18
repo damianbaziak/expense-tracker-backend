@@ -108,7 +108,7 @@ class WalletDeleteControllerTest {
         result
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.status", is(ErrorCode.TEA001.getBusinessCode())))
+                .andExpect(jsonPath("$.businessCode", is(ErrorCode.TEA001.getBusinessCode())))
                 .andExpect(jsonPath("$.message", is(ErrorCode.TEA001.getBusinessMessage())))
                 .andExpect(jsonPath("$.statusCode", is(ErrorCode.TEA001.getHttpStatus())));
 

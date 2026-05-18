@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 class FinancialTransactionCategoryCreateServiceImplTest {
 
     private static final Long USER_ID_1L = 1L;
+    private static final Long ID_1L = 1L;
     private static final String EXAMPLE_CATEGORY_NAME = "Example category name_";
 
     @Mock
@@ -49,7 +50,7 @@ class FinancialTransactionCategoryCreateServiceImplTest {
                 new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, EXPENSE);
 
         FinancialTransactionCategory financialTransactionCategoryEntity =
-                TestUtils.createFinancialTransactionCategoryForTest(EXPENSE);
+                TestUtils.createFinancialTransactionCategoryForTest(ID_1L, EXPENSE);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO
                 = TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);

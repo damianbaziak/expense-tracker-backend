@@ -36,7 +36,8 @@ public class FinancialTransactionCreateDTO {
     public FinancialTransactionCreateDTO() {
     }
 
-    public FinancialTransactionCreateDTO(Long walletId, BigDecimal amount, String description, FinancialTransactionType type, Instant date, Long categoryId) {
+    public FinancialTransactionCreateDTO(Long walletId, BigDecimal amount, String description,
+                                         FinancialTransactionType type, Instant date, Long categoryId) {
         this.walletId = walletId;
         this.amount = amount;
         this.description = description;

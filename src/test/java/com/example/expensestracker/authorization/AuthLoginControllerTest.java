@@ -143,7 +143,7 @@ class AuthLoginControllerTest {
         resultActions
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
-                        "User with this email not exists"));
+                        "Invalid email or password"));
 
     }
 
@@ -212,7 +212,7 @@ class AuthLoginControllerTest {
         resultActions
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
-                        "User with this email or password not exists"));
+                        "Invalid email or password"));
 
 
     }
