@@ -1,14 +1,15 @@
 package com.example.expensestracker.financialtransaction.api;
 
 import com.example.expensestracker.financialtransaction.api.model.FinancialTransaction;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
-public interface FinancialTransactionRepository extends CrudRepository<FinancialTransaction, Long> {
-    Optional<FinancialTransaction> findByIdAndWalletUserId(Long financialTransactionId, Long walletId);
+public interface FinancialTransactionRepository extends JpaRepository<FinancialTransaction, Long> {
+    Optional<FinancialTransaction> findByIdAndWalletUserId(Long financialTransactionId, Long userId);
 
     List<FinancialTransaction> findAllByWalletIdAndWalletUserIdOrderByDateDesc(Long walletId, Long userId);
 

@@ -59,7 +59,7 @@ class FinancialTransactionFindServiceImplTest {
         User user = TestUtils.createUserForTest();
         Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
 
-        List<FinancialTransaction> ftList = TestUtils.createFinancialTransactionListForTest(
+        List<FinancialTransaction> ftList = TestUtils.createTransactionsForTest(
                 3, wallet, EXPENSE);
 
         when(walletRepository.findByIdAndUserId(WALLET_ID_1L, user.getId())).thenReturn(Optional.of(wallet));
@@ -135,7 +135,7 @@ class FinancialTransactionFindServiceImplTest {
         FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(INCOME);
         FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
                 ID_1L, INCOME);
-        FinancialTransaction financialTransaction = TestUtils.createFinancialTransactionForTest(
+        FinancialTransaction financialTransaction = TestUtils.createTransactionForTest(
                 INCOME, financialTransactionCategory);
 
         // Mocking repository and service

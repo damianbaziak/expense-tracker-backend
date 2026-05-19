@@ -42,6 +42,20 @@ public class FinancialTransactionController {
         return new ResponseEntity<>(financialTransactionDTO, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FinancialTransactionDTO> getTransactionById(
+            @Min(1) @NotNull @PathVariable Long id, Principal principal) {
+        String email = principal.getName();
+        User user = userService.findUserByEmail(email);
+        Long userId = user.getId();
+
+        FinancialTransactionDTO financialTransactionDTO = financialTransactionService.findFinancialTransactionForUser(
+                id, userId);
+
+        return new ResponseEntity<>(financialTransactionDTO, HttpStatus.OK);
+
+    }
+
     @GetMapping()
     public ResponseEntity<List<FinancialTransactionDTO>> getFinancialTransactionsByWalletId(
             @RequestParam @Min(1) @NotNull Long walletId, Principal principal) {
@@ -67,20 +81,6 @@ public class FinancialTransactionController {
 
         FinancialTransactionDTO financialTransactionDTO = financialTransactionService.updateFinancialTransaction(
                 id, financialTransactionUpdateDTO, userId);
-
-        return new ResponseEntity<>(financialTransactionDTO, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<FinancialTransactionDTO> getTransactionById(
-            @Min(1) @NotNull @PathVariable Long id, Principal principal) {
-        String email = principal.getName();
-        User user = userService.findUserByEmail(email);
-        Long userId = user.getId();
-
-        FinancialTransactionDTO financialTransactionDTO = financialTransactionService.findFinancialTransactionForUser(
-                id, userId);
 
         return new ResponseEntity<>(financialTransactionDTO, HttpStatus.OK);
 

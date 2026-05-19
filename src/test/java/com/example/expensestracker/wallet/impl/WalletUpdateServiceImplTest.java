@@ -36,6 +36,7 @@ class WalletUpdateServiceImplTest {
 
     private static final Long USER_ID_1L = 1L;
     private static final Long WALLET_ID_1L = 1L;
+    private static final Long TRANSACTION_ID_1L = 1L;
     private static final String NEW_WALLET_NAME = "New wallet name";
     private static final BigDecimal INCOME_AMOUNT = new BigDecimal(100);
     private static final BigDecimal EXPENSE_AMOUNT = new BigDecimal(50);
@@ -159,9 +160,9 @@ class WalletUpdateServiceImplTest {
     }
 
     List<FinancialTransaction> createTestTransactions() {
-        FinancialTransaction transaction1 = TestUtils.createFinancialTransactionForTest(INCOME);
+        FinancialTransaction transaction1 = TestUtils.createTransactionForTest(TRANSACTION_ID_1L, INCOME);
         transaction1.setAmount(INCOME_AMOUNT);
-        FinancialTransaction transaction2 = TestUtils.createFinancialTransactionForTest(EXPENSE);
+        FinancialTransaction transaction2 = TestUtils.createTransactionForTest(TRANSACTION_ID_1L, EXPENSE);
         transaction2.setAmount(EXPENSE_AMOUNT);
 
         return Arrays.asList(transaction1, transaction2);

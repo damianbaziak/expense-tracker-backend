@@ -52,7 +52,7 @@ public class TestUtils {
                 .build();
     }
 
-    public static Wallet createWalletForTest(User user) {
+    public static Wallet createWalletForTestWithoutId(User user) {
         return Wallet.builder()
                 .user(user)
                 .name(EXAMPLE_WALLET_NAME)
@@ -94,9 +94,9 @@ public class TestUtils {
 
     }
 
-    public static FinancialTransaction createFinancialTransactionForTest(FinancialTransactionType type) {
+    public static FinancialTransaction createTransactionForTest(Long id, FinancialTransactionType type) {
         return FinancialTransaction.builder()
-                .id(ID_1L)
+                .id(id)
                 .amount(ONE)
                 .description(EXAMPLE_DESCRIPTION)
                 .type(type)
@@ -104,8 +104,9 @@ public class TestUtils {
                 .build();
     }
 
-    public static FinancialTransaction createFinancialTransactionForTest(FinancialTransactionType type,
-                                                                         FinancialTransactionCategory category) {
+
+    public static FinancialTransaction createTransactionForTest(FinancialTransactionType type,
+                                                                FinancialTransactionCategory category) {
         return FinancialTransaction.builder()
                 .id(ID_1L)
                 .amount(ONE)
@@ -116,11 +117,20 @@ public class TestUtils {
                 .build();
     }
 
+    public static FinancialTransaction createTransactionForTestWithoutId(FinancialTransactionType type) {
+        return FinancialTransaction.builder()
+                .amount(ONE)
+                .description(EXAMPLE_DESCRIPTION)
+                .type(type)
+                .date(DATE_NOW)
+                .build();
+    }
+
     public static FinancialTransactionDTO createFinancialTransactionDTOForTest(FinancialTransactionType type) {
         return new FinancialTransactionDTO(ID_1L, ONE, EXAMPLE_DESCRIPTION, type, DATE_NOW, CATEGORY_ID);
     }
 
-    public static List<FinancialTransaction> createFinancialTransactionListForTest(
+    public static List<FinancialTransaction> createTransactionsForTest(
             int count, Wallet wallet, FinancialTransactionType type) {
         BigDecimal amount = new BigDecimal(100);
         ArrayList<FinancialTransaction> list = new ArrayList<>();
@@ -140,7 +150,25 @@ public class TestUtils {
 
     }
 
-    public static List<FinancialTransactionDTO> createFinancialTransactionDTOListForTest(
+    public static List<FinancialTransaction> createTransactionsForTestWithoutIDs(
+            int count, Wallet wallet, FinancialTransactionType type) {
+        BigDecimal amount = new BigDecimal(100);
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+        for (long i = 1; i <= count; i++) {
+            amount = amount.add(BigDecimal.ONE);
+            list.add(FinancialTransaction.builder()
+                    .wallet(wallet)
+                    .type(type)
+                    .amount(amount)
+                    .date(DATE_NOW)
+                    .description(EXAMPLE_DESCRIPTION + i)
+                    .build()
+            );
+        }
+        return list;
+    }
+
+    public static List<FinancialTransactionDTO> createTransactionsDTOsForTest(
             int count, FinancialTransactionType type, Long categoryId) {
         BigDecimal amount = new BigDecimal(100);
         ArrayList<FinancialTransactionDTO> list = new ArrayList<>();
@@ -157,6 +185,23 @@ public class TestUtils {
         }
         return list;
 
+    }
+
+    public static List<FinancialTransactionDTO> createTransactionsDTOsForTestWithoutIDs(
+            int count, FinancialTransactionType type, Long categoryId) {
+        BigDecimal amount = new BigDecimal(100);
+        ArrayList<FinancialTransactionDTO> list = new ArrayList<>();
+        for (long i = 1; i <= count; i++) {
+            amount = amount.add(BigDecimal.ONE);
+            list.add(FinancialTransactionDTO.builder()
+                    .amount(amount)
+                    .description(EXAMPLE_DESCRIPTION + i)
+                    .type(type)
+                    .date(DATE_NOW)
+                    .categoryId(categoryId)
+                    .build());
+        }
+        return list;
     }
 
     public static FinancialTransactionCategory createFinancialTransactionCategoryForTest(Long id,
@@ -179,7 +224,6 @@ public class TestUtils {
                 .user(user)
                 .build();
     }
-
 
 
     public static FinancialTransactionCategoryDTO createFinancialTransactionCategoryDTOForTest(

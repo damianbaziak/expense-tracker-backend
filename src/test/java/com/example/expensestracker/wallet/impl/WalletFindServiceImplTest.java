@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 class WalletFindServiceImplTest {
     private static final Long USER_ID_1L = 1L;
     private static final Long WALLET_ID_1L = 1L;
+    private static final Long TRANSACTION_ID_1L = 1L;
     private static final BigDecimal INCOME_AMOUNT_1 = new BigDecimal(100);
     private static final BigDecimal INCOME_AMOUNT_2 = new BigDecimal(200);
     private static final BigDecimal INCOME_AMOUNT_3 = new BigDecimal(300);
@@ -288,9 +289,9 @@ class WalletFindServiceImplTest {
     }
 
     List<FinancialTransaction> createIncomeAndExpenseTransactionsForWallet(BigDecimal incomeAmount, BigDecimal expenseAmount) {
-        FinancialTransaction transaction1 = TestUtils.createFinancialTransactionForTest(INCOME);
+        FinancialTransaction transaction1 = TestUtils.createTransactionForTest(TRANSACTION_ID_1L, INCOME);
         transaction1.setAmount(incomeAmount);
-        FinancialTransaction transaction2 = TestUtils.createFinancialTransactionForTest(EXPENSE);
+        FinancialTransaction transaction2 = TestUtils.createTransactionForTest(TRANSACTION_ID_1L, EXPENSE);
         transaction2.setAmount(expenseAmount);
 
         return Arrays.asList(transaction1, transaction2);

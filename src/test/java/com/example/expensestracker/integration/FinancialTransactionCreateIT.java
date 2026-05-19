@@ -6,8 +6,6 @@ import com.example.expensestracker.authorization.webtoken.JwtService;
 import com.example.expensestracker.financialtransaction.FinancialTransactionController;
 import com.example.expensestracker.financialtransaction.api.FinancialTransactionRepository;
 import com.example.expensestracker.financialtransaction.api.dto.FinancialTransactionCreateDTO;
-import com.example.expensestracker.financialtransaction.api.model.FinancialTransaction;
-import com.example.expensestracker.financialtransaction.api.model.FinancialTransactionType;
 import com.example.expensestracker.financialtransaktioncategory.api.FinancialTransactionCategoryRepository;
 import com.example.expensestracker.financialtransaktioncategory.api.model.FinancialTransactionCategory;
 import com.example.expensestracker.general.exception.ErrorCode;
@@ -33,17 +31,13 @@ import static java.math.BigDecimal.ONE;
 /**
  * Integration tests for the {@link FinancialTransactionController} REST controller.
  */
-public class FinancialTransactionIT extends IntegrationTest {
+public class FinancialTransactionCreateIT extends IntegrationTest {
+
+    private static final String API_URL = "/api/transactions";
 
     private static final String USER_EMAIL = "example@email.com";
 
     private static final String USER_PASSWORD = "1234567890";
-
-    private static final Long ID_1L = 1L;
-
-    private static final String API_URL = "/api/transactions";
-
-    private static final Long CATEGORY_ID = 1L;
 
     private static final Instant DATE = Instant.parse("2024-12-22T14:30:00.500Z");
 
@@ -88,14 +82,14 @@ public class FinancialTransactionIT extends IntegrationTest {
 
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTest(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
 
-        FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
-        financialTransactionCreateDTO.setWalletId(savedWallet.getId());
+        FinancialTransactionCreateDTO transactionCreateDTO = createFinancialTransactionCreateDTO();
+        transactionCreateDTO.setWalletId(savedWallet.getId());
 
         mockMvc.perform(MockMvcRequestBuilders.post(API_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(financialTransactionCreateDTO))
+                        .content(objectMapper.writeValueAsString(transactionCreateDTO))
                         .header("Authorization", "Bearer " + accessToken))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(ONE))
@@ -118,11 +112,11 @@ public class FinancialTransactionIT extends IntegrationTest {
 
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
+        FinancialTransactionCreateDTO transactionCreateDTO = createFinancialTransactionCreateDTO();
 
         mockMvc.perform(MockMvcRequestBuilders.post(API_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(financialTransactionCreateDTO))
+                        .content(objectMapper.writeValueAsString(transactionCreateDTO))
                         .header("Authorization", "Bearer " + accessToken))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
@@ -143,25 +137,25 @@ public class FinancialTransactionIT extends IntegrationTest {
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
         // // Creating INCOME category, but transaction will be EXPENSE - type mismatch
-        FinancialTransactionCategory financialTransactionCategory = transactionCategoryRepository.save(
+        FinancialTransactionCategory transactionCategory = transactionCategoryRepository.save(
                 TestUtils.createFinancialTransactionCategoryForTest(INCOME, user));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTest(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
 
-        FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
-        financialTransactionCreateDTO.setCategoryId(financialTransactionCategory.getId());
-        financialTransactionCreateDTO.setWalletId(savedWallet.getId());
+        FinancialTransactionCreateDTO createDTO = createFinancialTransactionCreateDTO();
+        createDTO.setCategoryId(transactionCategory.getId());
+        createDTO.setWalletId(savedWallet.getId());
 
         mockMvc.perform(MockMvcRequestBuilders.post(API_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(financialTransactionCreateDTO))
+                        .content(objectMapper.writeValueAsString(createDTO))
                         .header("Authorization", "Bearer " + accessToken))
 
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
                         String.format("Financial transaction type: %s does not match financial category type: %s",
-                                financialTransactionCreateDTO.getType(), financialTransactionCategory.getType())))
+                                createDTO.getType(), transactionCategory.getType())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
                         .value(ErrorCode.FT002.getBusinessMessage()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode")
@@ -169,6 +163,8 @@ public class FinancialTransactionIT extends IntegrationTest {
 
     }
 
+
+    // =============== HELPER METHODS ================
 
     private FinancialTransactionCreateDTO createFinancialTransactionCreateDTO() {
         return new FinancialTransactionCreateDTO(WALLET_ID_1, ONE, DESCRIPTION, EXPENSE,

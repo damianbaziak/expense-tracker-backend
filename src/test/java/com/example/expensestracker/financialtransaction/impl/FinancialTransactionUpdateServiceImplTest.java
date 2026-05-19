@@ -60,7 +60,7 @@ class FinancialTransactionUpdateServiceImplTest {
                 CATEGORY_ID_1L, EXPENSE);
 
         FinancialTransactionUpdateDTO transactionUpdateDTO = createTransactionUpdateDTO();
-        FinancialTransaction existingTransaction = TestUtils.createFinancialTransactionForTest(EXPENSE);
+        FinancialTransaction existingTransaction = TestUtils.createTransactionForTest(TRANSACTION_ID_1L, EXPENSE);
         FinancialTransactionDTO expectedDTO = createExpectedDTO();
 
         when(financialTransactionRepository.findByIdAndWalletUserId(TRANSACTION_ID_1L, USER_ID_1L)).thenReturn(

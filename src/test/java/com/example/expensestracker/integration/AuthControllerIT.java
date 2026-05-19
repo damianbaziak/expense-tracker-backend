@@ -1,7 +1,9 @@
 package com.example.expensestracker.integration;
 
 import com.example.expensestracker.IntegrationTest;
+import com.example.expensestracker.authorization.AuthController;
 import com.example.expensestracker.authorization.api.dto.UserLoginDTO;
+import com.example.expensestracker.financialtransaction.FinancialTransactionController;
 import com.example.expensestracker.user.api.UserRepository;
 import com.example.expensestracker.user.api.dto.UserDTO;
 import com.example.expensestracker.user.api.model.User;
@@ -15,6 +17,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+/**
+ * Integration tests for the {@link AuthController} REST controller.
+ */
 public class AuthControllerIT extends IntegrationTest {
 
     private static final String REGISTER_USER_URL = "/api/auth/register";

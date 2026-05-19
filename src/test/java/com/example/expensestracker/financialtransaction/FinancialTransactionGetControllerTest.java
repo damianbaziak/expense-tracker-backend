@@ -78,7 +78,7 @@ class FinancialTransactionGetControllerTest {
     void getFinancialTransactionsByWalletId_transactionsExist_shouldReturnFinancialTransactionsList() throws Exception {
         // given
         User user = TestUtils.createUserForTest();
-        List<FinancialTransactionDTO> financialTransactionDTOS = TestUtils.createFinancialTransactionDTOListForTest(
+        List<FinancialTransactionDTO> financialTransactionDTOS = TestUtils.createTransactionsDTOsForTest(
                 3, EXPENSE, CATEGORY_ID_1L);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
