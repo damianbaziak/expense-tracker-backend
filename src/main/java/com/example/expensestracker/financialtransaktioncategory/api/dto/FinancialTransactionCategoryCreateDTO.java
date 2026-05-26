@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class FinancialTransactionCategoryCreateDTO {
     @NotBlank
-    @Size(max = 30, message = "Name size too long")
+        @Size(max = 30, message = "Name size too long")
     @Pattern(regexp = "^[\\w\\s]+$")
     private String name;
     @NotNull

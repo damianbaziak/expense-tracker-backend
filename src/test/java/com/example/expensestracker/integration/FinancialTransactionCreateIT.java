@@ -32,37 +32,24 @@ import static java.math.BigDecimal.ONE;
  * Integration tests for the {@link FinancialTransactionController} REST controller.
  */
 public class FinancialTransactionCreateIT extends IntegrationTest {
-
     private static final String API_URL = "/api/transactions";
-
     private static final String USER_EMAIL = "example@email.com";
-
     private static final String USER_PASSWORD = "1234567890";
-
     private static final Instant DATE = Instant.parse("2024-12-22T14:30:00.500Z");
-
     private static final String DESCRIPTION = "Example description_";
-
     private static final Long WALLET_ID_1 = 1L;
-
     @Autowired
     private FinancialTransactionRepository transactionRepository;
-
     @Autowired
     private FinancialTransactionCategoryRepository transactionCategoryRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private WalletRepository walletRepository;
-
 
     @BeforeEach
     public void setup() {
@@ -73,13 +60,8 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
 
     @Test
     void testCreateFinancialTransaction_validData() throws Exception {
-
-        User user = userRepository.save(
-                User.builder()
-                        .email(USER_EMAIL)
-                        .password(USER_PASSWORD)
-                        .build());
-
+        final User user = createUser();
+        userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
         Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
@@ -98,18 +80,12 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
 
         Assertions.assertEquals(1, walletRepository.count());
         Assertions.assertEquals(1, transactionRepository.count());
-
     }
 
     @Test
     void testCreateFinancialTransaction_nonExistentWallet() throws Exception {
-
-        User user = userRepository.save(
-                User.builder()
-                        .email(USER_EMAIL)
-                        .password(USER_PASSWORD)
-                        .build());
-
+        final User user = createUser();
+        userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
         FinancialTransactionCreateDTO transactionCreateDTO = createFinancialTransactionCreateDTO();
@@ -121,7 +97,7 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
                         String.format("Wallet with this id: %d not exist", WALLET_ID_1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage")
                         .value(ErrorCode.W001.getBusinessMessage()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode")
                         .value(ErrorCode.W001.getBusinessCode()));
@@ -131,12 +107,11 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
 
     @Test
     void testCreateFinancialTransaction_mismatchedCategoryType_shouldReturnStatusBadRequest() throws Exception {
-
-        User user = userRepository.save(User.builder().email(USER_EMAIL).password(USER_PASSWORD).build());
-
+        final User user = createUser();
+        userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        // // Creating INCOME category, but transaction will be EXPENSE - type mismatch
+        // Creating INCOME category for createDTO, but transaction will be EXPENSE - type mismatch.
         FinancialTransactionCategory transactionCategory = transactionCategoryRepository.save(
                 TestUtils.createFinancialTransactionCategoryForTest(INCOME, user));
 
@@ -156,15 +131,21 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
                         String.format("Financial transaction type: %s does not match financial category type: %s",
                                 createDTO.getType(), transactionCategory.getType())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage")
                         .value(ErrorCode.FT002.getBusinessMessage()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode")
                         .value(ErrorCode.FT002.getBusinessCode()));
-
     }
 
 
-    // =============== HELPER METHODS ================
+    // =============== These methods have been written for many tests in this file. ================
+
+    private User createUser() {
+        return User.builder()
+                .email(USER_EMAIL)
+                .password(USER_PASSWORD)
+                .build();
+    }
 
     private FinancialTransactionCreateDTO createFinancialTransactionCreateDTO() {
         return new FinancialTransactionCreateDTO(WALLET_ID_1, ONE, DESCRIPTION, EXPENSE,

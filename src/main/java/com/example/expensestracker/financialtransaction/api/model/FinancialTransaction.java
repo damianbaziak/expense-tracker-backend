@@ -3,16 +3,20 @@ package com.example.expensestracker.financialtransaction.api.model;
 import com.example.expensestracker.financialtransaktioncategory.api.model.FinancialTransactionCategory;
 import com.example.expensestracker.wallet.api.model.Wallet;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Objects;
 
 @Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "financial_transactions")
 public class FinancialTransaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,20 +47,6 @@ public class FinancialTransaction {
     private FinancialTransactionCategory financialTransactionCategory;
 
     private String description;
-
-    public FinancialTransaction() {
-    }
-
-    public FinancialTransaction(Long id, Wallet wallet, FinancialTransactionType type, BigDecimal amount, Instant date,
-                                FinancialTransactionCategory financialTransactionCategory, String description) {
-        this.id = id;
-        this.wallet = wallet;
-        this.type = type;
-        this.amount = amount;
-        this.date = date;
-        this.financialTransactionCategory = financialTransactionCategory;
-        this.description = description;
-    }
 
     public Long getId() {
         return id;

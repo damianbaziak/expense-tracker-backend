@@ -92,7 +92,7 @@ class AuthServiceImplLoginTest {
         ));
 
         Assertions.assertEquals("Invalid email or password", result.getDescription());
-        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getErrorBusinessCode());
+        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getBusinessCode());
         Assertions.assertEquals(ErrorCode.U002.getHttpStatus(), result.getHttpStatusCode());
 
         verify(userRepository, times(1)).findByEmail(userEmail);
@@ -119,7 +119,7 @@ class AuthServiceImplLoginTest {
         ));
 
         Assertions.assertEquals("Invalid email or password", result.getDescription());
-        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getErrorBusinessCode());
+        Assertions.assertEquals(ErrorCode.U002.getBusinessCode(), result.getBusinessCode());
         Assertions.assertEquals(ErrorCode.U002.getHttpStatus(), result.getHttpStatusCode());
 
         verify(userRepository, times(1)).findByEmail(userEmail);

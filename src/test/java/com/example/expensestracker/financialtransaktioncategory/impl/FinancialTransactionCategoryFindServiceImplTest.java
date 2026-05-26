@@ -91,7 +91,7 @@ class FinancialTransactionCategoryFindServiceImplTest {
 
         assertThat(result).hasMessage(ErrorCode.FTC001.getBusinessMessage());
         assertThat(result.getHttpStatusCode()).isEqualTo(ErrorCode.FTC001.getHttpStatus());
-        assertThat(result.getErrorBusinessCode()).isEqualTo((ErrorCode.FTC001.getBusinessCode()));
+        assertThat(result.getBusinessCode()).isEqualTo((ErrorCode.FTC001.getBusinessCode()));
 
         // Verification that not unnecessary operation were called
         verify(financialTransactionRepository, times(0))

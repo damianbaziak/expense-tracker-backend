@@ -69,19 +69,19 @@ class FinancialTransactionCategoryCreateControllerTest {
         User user = TestUtils.createUserForTest();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
-        FinancialTransactionCategoryCreateDTO financialTransactionCategoryCreateDTO =
+        FinancialTransactionCategoryCreateDTO categoryCreateDTO =
                 new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, EXPENSE);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO =
                 TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);
 
-        when(financialTransactionCategoryService.createCategory(financialTransactionCategoryCreateDTO, USER_ID_1L))
+        when(financialTransactionCategoryService.createCategory(categoryCreateDTO, USER_ID_1L))
                 .thenReturn(financialTransactionCategoryDTO);
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(objectMapper.writeValueAsString(financialTransactionCategoryCreateDTO)))
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(categoryCreateDTO)))
                 .characterEncoding("UTF-8"));
 
         // then
@@ -100,7 +100,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // given
         User user = TestUtils.createUserForTest();
 
-        FinancialTransactionCategoryCreateDTO financialTransactionCategoryCreateDTO
+        FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, null);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -108,7 +108,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(objectMapper.writeValueAsString(financialTransactionCategoryCreateDTO))));
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(categoryCreateDTO))));
 
         // then
         resultActions.andExpect(status().isBadRequest());
@@ -121,7 +121,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // given
         User user = TestUtils.createUserForTest();
 
-        FinancialTransactionCategoryCreateDTO financialTransactionCategoryCreateDTO
+        FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO("   ", EXPENSE);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -129,7 +129,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(objectMapper.writeValueAsString(financialTransactionCategoryCreateDTO))));
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(categoryCreateDTO))));
 
         // then
         resultActions.andExpect(status().isBadRequest());
@@ -142,7 +142,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // given
         User user = TestUtils.createUserForTest();
 
-        FinancialTransactionCategoryCreateDTO financialTransactionCategoryCreateDTO
+        FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO(CATEGORY_NAME_TO_LONG, EXPENSE);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -150,7 +150,7 @@ class FinancialTransactionCategoryCreateControllerTest {
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(Objects.requireNonNull(objectMapper.writeValueAsString(financialTransactionCategoryCreateDTO))));
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(categoryCreateDTO))));
 
         // then
         resultActions.andExpect(status().isBadRequest());

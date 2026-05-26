@@ -222,7 +222,7 @@ class AuthRegisterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage")
                         .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())));
 
     }
@@ -239,7 +239,7 @@ class AuthRegisterControllerTest {
                         .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpectAll(
                         MockMvcResultMatchers.status().is(expectedStatus),
-                        MockMvcResultMatchers.jsonPath("$.message")
+                        MockMvcResultMatchers.jsonPath("$.businessMessage")
                                 .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
                         MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
                                 .value(Matchers.containsString(expectedMessage)));
@@ -258,7 +258,7 @@ class AuthRegisterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpectAll(MockMvcResultMatchers.status().is(expectedStatus),
-                        MockMvcResultMatchers.jsonPath("$.message")
+                        MockMvcResultMatchers.jsonPath("$.businessMessage")
                                 .value(Matchers.containsString(ErrorCode.TEA001.getBusinessMessage())),
                         MockMvcResultMatchers.jsonPath("$.descriptionList[0]")
                                 .value(Matchers.containsString(expectedMessage)));

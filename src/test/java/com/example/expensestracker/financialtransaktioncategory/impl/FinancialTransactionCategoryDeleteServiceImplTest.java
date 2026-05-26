@@ -60,7 +60,7 @@ class FinancialTransactionCategoryDeleteServiceImplTest {
                 () -> financialTransactionCategoryService.deleteCategory(CATEGORY_ID_1, ID_1));
 
         Assertions.assertAll(
-                () -> assertThat(result.getErrorBusinessCode()).isEqualTo(ErrorCode.FTC001.getBusinessCode()),
+                () -> assertThat(result.getBusinessCode()).isEqualTo(ErrorCode.FTC001.getBusinessCode()),
                 () -> assertThat(result.getMessage()).isEqualTo(ErrorCode.FTC001.getBusinessMessage()),
                 () -> verify(financialTransactionCategoryRepository, times(1))
                         .existsByIdAndUserId(CATEGORY_ID_1, ID_1));

@@ -104,7 +104,7 @@ class WalletUpdateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W001.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W001.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getErrorBusinessCode()));
+                () -> assertEquals(ErrorCode.W001.getBusinessCode(), result.getBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 
@@ -128,7 +128,7 @@ class WalletUpdateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.W002.getBusinessMessage(), result.getMessage()),
                 () -> assertEquals(ErrorCode.W002.getHttpStatus(), result.getHttpStatusCode()),
-                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getErrorBusinessCode()));
+                () -> assertEquals(ErrorCode.W002.getBusinessCode(), result.getBusinessCode()));
         verify(walletRepository, times(1)).findById(WALLET_ID_1L);
         verify(walletRepository, times(0)).deleteById(WALLET_ID_1L);
 

@@ -90,7 +90,7 @@ class WalletDeleteControllerTest {
         result
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Wallet not exists"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.W001.getBusinessMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage").value(ErrorCode.W001.getBusinessMessage()));
     }
 
     @Test
@@ -109,7 +109,7 @@ class WalletDeleteControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").exists())
                 .andExpect(jsonPath("$.businessCode", is(ErrorCode.TEA001.getBusinessCode())))
-                .andExpect(jsonPath("$.message", is(ErrorCode.TEA001.getBusinessMessage())))
+                .andExpect(jsonPath("$.businessMessage", is(ErrorCode.TEA001.getBusinessMessage())))
                 .andExpect(jsonPath("$.statusCode", is(ErrorCode.TEA001.getHttpStatus())));
 
     }

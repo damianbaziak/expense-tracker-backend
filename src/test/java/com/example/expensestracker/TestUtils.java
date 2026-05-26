@@ -94,6 +94,8 @@ public class TestUtils {
 
     }
 
+
+
     public static FinancialTransaction createTransactionForTest(Long id, FinancialTransactionType type) {
         return FinancialTransaction.builder()
                 .id(id)
@@ -119,6 +121,16 @@ public class TestUtils {
 
     public static FinancialTransaction createTransactionForTestWithoutId(FinancialTransactionType type) {
         return FinancialTransaction.builder()
+                .amount(ONE)
+                .description(EXAMPLE_DESCRIPTION)
+                .type(type)
+                .date(DATE_NOW)
+                .build();
+    }
+
+    public static FinancialTransaction createTransactionForTestWithoutId(Wallet wallet, FinancialTransactionType type) {
+        return FinancialTransaction.builder()
+                .wallet(wallet)
                 .amount(ONE)
                 .description(EXAMPLE_DESCRIPTION)
                 .type(type)

@@ -4,7 +4,9 @@ import com.example.expensestracker.financialtransaction.api.model.FinancialTrans
 import com.example.expensestracker.financialtransaction.api.model.FinancialTransactionType;
 import com.example.expensestracker.user.api.model.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "financial_transactions_categories")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FinancialTransactionCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +36,6 @@ public class FinancialTransactionCategory {
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     User user;
-
-    public FinancialTransactionCategory() {
-    }
-
-    public FinancialTransactionCategory(Long id, String name, FinancialTransactionType type, List<FinancialTransaction> financialTransactions, Instant creationDate, User user) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.financialTransactions = financialTransactions;
-        this.creationDate = creationDate;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;
@@ -67,14 +59,6 @@ public class FinancialTransactionCategory {
 
     public void setType(FinancialTransactionType type) {
         this.type = type;
-    }
-
-    public List<FinancialTransaction> getFinancialTransactions() {
-        return financialTransactions;
-    }
-
-    public void setFinancialTransactions(List<FinancialTransaction> financialTransactions) {
-        this.financialTransactions = financialTransactions;
     }
 
     public Instant getCreationDate() {

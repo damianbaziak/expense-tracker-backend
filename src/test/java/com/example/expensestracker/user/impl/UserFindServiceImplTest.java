@@ -68,7 +68,7 @@ class UserFindServiceImplTest {
                 AppRuntimeException.class, () -> userService.findUserById(USER_ID_1L, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U003.getBusinessCode()),
+                () -> assertEquals(result.getBusinessCode(), ErrorCode.U003.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U003.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U003.getHttpStatus())
         );
@@ -85,7 +85,7 @@ class UserFindServiceImplTest {
                 AppRuntimeException.class, () -> userService.findUserById(2L, PRINCIPAL_ID_1L));
 
         assertAll(
-                () -> assertEquals(result.getErrorBusinessCode(), ErrorCode.U004.getBusinessCode()),
+                () -> assertEquals(result.getBusinessCode(), ErrorCode.U004.getBusinessCode()),
                 () -> assertEquals(result.getMessage(), ErrorCode.U004.getBusinessMessage()),
                 () -> assertEquals(result.getHttpStatusCode(), ErrorCode.U004.getHttpStatus())
         );

@@ -83,7 +83,7 @@ class WalletCreateServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(ErrorCode.U003.getHttpStatus(), result.getHttpStatusCode()),
                 () -> assertEquals(ErrorCode.U003.getBusinessMessage(), result.getMessage()),
-                () -> assertEquals(ErrorCode.U003.getBusinessCode(), result.getErrorBusinessCode()),
+                () -> assertEquals(ErrorCode.U003.getBusinessCode(), result.getBusinessCode()),
                 () -> verify(walletRepository, never()).save(any(Wallet.class)),
                 () -> verify(walletModelMapper, never()).mapWalletEntityToWalletDTO(any(Wallet.class)));
 

@@ -32,30 +32,19 @@ import static java.math.BigDecimal.ONE;
  * Integration tests for the {@link FinancialTransactionController} REST controller.
  */
 public class FinancialTransactionUpdateIT extends IntegrationTest {
-
     private static final String API_URL = "/api/transactions";
-
     private static final String USER_EMAIL = "example@email.com";
-
     private static final String USER_PASSWORD = "1234567890";
-
     private static final Instant DATE = Instant.parse("2024-12-22T14:30:00.500Z");
-
     private static final String DESCRIPTION = "Example description_";
-
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private FinancialTransactionRepository transactionRepository;
-
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private WalletRepository walletRepository;
 
@@ -68,13 +57,8 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
 
     @Test
     void testUpdateTransactionById_validData() throws Exception {
-
-        User user = userRepository.save(
-                User.builder()
-                        .email(USER_EMAIL)
-                        .password(USER_PASSWORD)
-                        .build());
-
+        final User user = createUser();
+        userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
         Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
@@ -97,23 +81,17 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
 
         Assertions.assertEquals(1, transactionRepository.count());
         Assertions.assertEquals(1, walletRepository.count());
-
     }
 
     @Test
     void testUpdateTransactionById_invalidIdGiven_shouldReturnStatusNotFound() throws Exception {
-
-        User user = userRepository.save(
-                User.builder()
-                        .email(USER_EMAIL)
-                        .password(USER_PASSWORD)
-                        .build());
-
+        final User user = createUser();
+        userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
         Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
 
-        // Transaction saved with a different ID.
+        // Transaction saved with a custom ID.
         transactionRepository.save(createFinancialTransaction(savedWallet));
 
         FinancialTransactionUpdateDTO updateDTO = createFinancialTransactionUpdateDTO();
@@ -126,7 +104,7 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.businessCode").value(ErrorCode.FT001.getBusinessCode()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.FT001.getBusinessMessage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage").value(ErrorCode.FT001.getBusinessMessage()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
                         String.format("Financial transaction with this id: %d not exist", 123)
                 ));
@@ -136,7 +114,15 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
     }
 
 
-    // =============== HELPER METHODS ================
+    // =============== These methods have been written for many tests in this file. ================
+
+    private User createUser() {
+        return User.builder()
+                .email(USER_EMAIL)
+                .password(USER_PASSWORD)
+                .build();
+    }
+
 
     private FinancialTransactionUpdateDTO createFinancialTransactionUpdateDTO() {
         return FinancialTransactionUpdateDTO.builder()
@@ -145,9 +131,9 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
                 .type(EXPENSE)
                 .date(DATE)
                 .build();
-
     }
 
+    // Create a transaction to save to the database with values that will be updated.
     private FinancialTransaction createFinancialTransaction(Wallet wallet) {
         return FinancialTransaction.builder()
                 .amount(BigDecimal.TWO)
@@ -157,4 +143,5 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
                 .wallet(wallet)
                 .build();
     }
+
 }

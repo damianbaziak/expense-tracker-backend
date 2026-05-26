@@ -112,7 +112,7 @@ class WalletCreateControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.descriptionList[0]")
                         .value(containsString("Name should be between 2 and 20 characters long")))
-                .andExpect(jsonPath("$.message").value(ErrorCode.TEA001.getBusinessMessage()));
+                .andExpect(jsonPath("$.businessMessage").value(ErrorCode.TEA001.getBusinessMessage()));
 
 
     }
@@ -137,7 +137,7 @@ class WalletCreateControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.descriptionList[0]")
                         .value(containsString("Name should be between 2 and 20 characters long")))
-                .andExpect(jsonPath("$.message").value(ErrorCode.TEA001.getBusinessMessage()));
+                .andExpect(jsonPath("$.businessMessage").value(ErrorCode.TEA001.getBusinessMessage()));
 
     }
 
@@ -161,7 +161,7 @@ class WalletCreateControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.descriptionList[0]")
                         .value(Matchers.containsString("Name can not be blank")))
-                .andExpect(jsonPath("$.message").value(ErrorCode.TEA001.getBusinessMessage()));
+                .andExpect(jsonPath("$.businessMessage").value(ErrorCode.TEA001.getBusinessMessage()));
 
     }
 

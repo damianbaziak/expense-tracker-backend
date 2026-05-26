@@ -107,7 +107,7 @@ class WalletGetControllerTest {
         // then
         result
                 .andExpect(status().isNotFound())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.W001.getBusinessMessage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage").value(ErrorCode.W001.getBusinessMessage()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(NO_WALLETS_DESCRIPTION));
     }
 
@@ -151,7 +151,7 @@ class WalletGetControllerTest {
         // then
         result.andExpect(status().isNotFound());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.description").value(WALLET_NOT_EXIST_DESCRIPTION));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.W001.getBusinessMessage()));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.businessMessage").value(ErrorCode.W001.getBusinessMessage()));
     }
 
     @Test

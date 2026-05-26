@@ -49,7 +49,6 @@ public class FinancialTransactionCategoryServiceImpl implements FinancialTransac
 
         return financialCategoryModelMapper.mapFinancialTransactionCategoryEntityToFinancialTransactionCategoryDTO(
                 transactionCategory);
-
     }
 
     @Override

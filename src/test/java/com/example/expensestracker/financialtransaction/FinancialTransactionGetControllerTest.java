@@ -167,7 +167,7 @@ class FinancialTransactionGetControllerTest {
         // then
         resultActions.andExpectAll(
                 MockMvcResultMatchers.status().isNotFound(),
-                MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.FT001.getBusinessMessage()),
+                MockMvcResultMatchers.jsonPath("$.businessMessage").value(ErrorCode.FT001.getBusinessMessage()),
                 MockMvcResultMatchers.jsonPath("$.businessCode").value(ErrorCode.FT001.getBusinessCode()),
                 MockMvcResultMatchers.jsonPath("$.description").value("Transaction not found"),
                 MockMvcResultMatchers.jsonPath("$.statusCode").value(ErrorCode.FT001.getHttpStatus()));

@@ -21,33 +21,28 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  * Integration tests for the {@link AuthController} REST controller.
  */
 public class AuthControllerIT extends IntegrationTest {
-
     private static final String REGISTER_USER_URL = "/api/auth/register";
     private static final String LOGIN_USER_URL = "/api/auth/login";
+    private static final String USER_EMAIL = "example@email.com";
+    private static final String USER_PASSWORD = "1234567890";
 
     private static final UserDTO USER_DTO = new UserDTO(
             "test_firstname", "test_lastname", 50, "test@email.com",
             "test_username", "1234567890");
-
     private static final UserDTO USER_DTO_TO_SHORT_PASSWORD = new UserDTO(
             "test_firstname", "test_lastname", 50, "test@email.com",
             "test_username", "123");
-
     private static final UserDTO USER_DTO_INVALID_EMAIL = new UserDTO(
             "test_firstname", "test_lastname", 50, "invalid.email.format",
             "test_username", "1234567890");
-
-    private static final UserLoginDTO USER_LOGIN_DTO = new UserLoginDTO("test@email.com", "1234567890");
-
+    private static final UserLoginDTO USER_LOGIN_DTO = new UserLoginDTO("example@email.com", "1234567890");
     private static final UserLoginDTO USER_LOGIN_DTO_WRONG_PASSWORD = new UserLoginDTO("test@email.com",
             "9999999999");
-
     private static final UserLoginDTO USER_LOGIN_DTO_INVALID_EMAIL = new UserLoginDTO("invalid.email.format",
             "1234567890");
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -69,7 +64,6 @@ public class AuthControllerIT extends IntegrationTest {
         Assertions.assertEquals(USER_DTO.getEmail(), user.getEmail());
         Assertions.assertEquals(USER_DTO.getUsername(), user.getUsername());
         Assertions.assertEquals(USER_DTO.getLastname(), user.getLastname());
-
     }
 
     @Test
@@ -119,11 +113,7 @@ public class AuthControllerIT extends IntegrationTest {
 
     @Test
     void authenticateUser_validCredentials_shouldReturnStatusOkAndJWT() throws Exception {
-
-        User user = User.builder()
-                .email("test@email.com")
-                .password(hashPassword("1234567890"))
-                .build();
+        User user = createUser();
         userRepository.save(user);
 
         mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_USER_URL)
@@ -131,7 +121,6 @@ public class AuthControllerIT extends IntegrationTest {
                         .content(objectMapper.writeValueAsString(USER_LOGIN_DTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken").isNotEmpty());
-
     }
 
     @Test
@@ -147,11 +136,7 @@ public class AuthControllerIT extends IntegrationTest {
 
     @Test
     void authenticateUser_wrongPassword_shouldReturnStatusUnauthorized() throws Exception {
-
-        User user = User.builder()
-                .email("test@email.com")
-                .password(hashPassword("1234567890"))
-                .build();
+        User user = createUser();
         userRepository.save(user);
 
         mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_USER_URL)
@@ -161,24 +146,31 @@ public class AuthControllerIT extends IntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(
                         "Invalid email or password"));
-
     }
 
     @Test
     void authenticateUser_invalidEmailFormat_shouldReturnStatusUnauthorized() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_USER_URL)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(USER_LOGIN_DTO_INVALID_EMAIL)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(USER_LOGIN_DTO_INVALID_EMAIL)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.descriptionList[0]").value(
                         Matchers.containsString("Invalid email format")));
     }
 
 
+    // =============== These methods have been written for many tests in this file. ================
 
+    private User createUser() {
+        return User.builder()
+                .email(USER_EMAIL)
+                .password(hashPassword(USER_PASSWORD))
+                .build();
+    }
 
     private String hashPassword(String password) {
         return passwordEncoder.encode(password);
     }
+
 }
