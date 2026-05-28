@@ -64,13 +64,13 @@ class FinancialTransactionCategoryUpdateControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void updateFinancialTransactionCategory_forValidData_shouldReturnsFTCategory() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionCategoryUpdateDTO categoryUpdateDTO =
                 new FinancialTransactionCategoryUpdateDTO(EXAMPLE_CATEGORY_NAME, EXPENSE);
 
-        FinancialTransactionCategoryDTO categoryDTO = TestUtils.createFinancialTransactionCategoryDTOForTest(
+        FinancialTransactionCategoryDTO categoryDTO = TestUtils.createFinancialTransactionCategoryDTO(
                 EXPENSE, USER_ID_1L);
 
         when(financialTransactionCategoryService.updateFinancialTransactionCategory(
@@ -85,7 +85,7 @@ class FinancialTransactionCategoryUpdateControllerTest {
         resultActions
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(ID_1L.intValue()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(categoryUpdateDTO.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(categoryUpdateDTO.name()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.type").value(EXPENSE.toString()));
 
     }
@@ -95,7 +95,7 @@ class FinancialTransactionCategoryUpdateControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void updateFinancialTransactionCategory_FTCTypeNull_shouldReturnsBadRequestStatus() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionCategoryUpdateDTO categoryUpdateDTO =
@@ -116,7 +116,7 @@ class FinancialTransactionCategoryUpdateControllerTest {
     @DisplayName("Should returns bad request status when name is blank")
     void updateFinancialTransactionCategory_fieldNameBlank_shouldReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionCategoryUpdateDTO categoryUpdateDTO
@@ -136,7 +136,7 @@ class FinancialTransactionCategoryUpdateControllerTest {
     @DisplayName("Should returns bad request status when name is to long")
     void updateFinancialTransactionCategory_nameToLong_shouldReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         FinancialTransactionCategoryUpdateDTO updateCategoryDTO
                 = new FinancialTransactionCategoryUpdateDTO(CATEGORY_NAME_TO_LONG, EXPENSE);

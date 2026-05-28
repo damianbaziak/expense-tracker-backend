@@ -40,8 +40,6 @@ public class FinancialTransactionDeleteIT extends IntegrationTest {
     private WalletRepository walletRepository;
     @Autowired
     private FinancialTransactionRepository transactionRepository;
-    @Autowired
-    private MockMvc mockMvc;
 
     @BeforeEach
     public void setUp() {
@@ -57,7 +55,7 @@ public class FinancialTransactionDeleteIT extends IntegrationTest {
         String accessToken = jwtService.generateToken(userDetails);
 
         Wallet savedWallet = createWalletAndSaveToDatabase(user);
-        FinancialTransaction financialTransaction = TestUtils.createTransactionForTestWithoutId(savedWallet,
+        FinancialTransaction financialTransaction = TestUtils.createTransactionWithoutId(savedWallet,
                 FinancialTransactionType.INCOME);
         FinancialTransaction savedTransaction = transactionRepository.save(financialTransaction);
 
@@ -79,7 +77,7 @@ public class FinancialTransactionDeleteIT extends IntegrationTest {
         String accessToken = jwtService.generateToken(userDetails);
 
         Wallet savedWallet = createWalletAndSaveToDatabase(user);
-        FinancialTransaction financialTransaction = TestUtils.createTransactionForTestWithoutId(savedWallet,
+        FinancialTransaction financialTransaction = TestUtils.createTransactionWithoutId(savedWallet,
                 FinancialTransactionType.INCOME);
         transactionRepository.save(financialTransaction);
 
@@ -108,7 +106,7 @@ public class FinancialTransactionDeleteIT extends IntegrationTest {
     }
 
     private Wallet createWalletAndSaveToDatabase(User user) {
-        Wallet wallet = TestUtils.createWalletForTestWithoutId(user);
+        Wallet wallet = TestUtils.createWalletWithoutId(user);
         return walletRepository.save(wallet);
     }
 

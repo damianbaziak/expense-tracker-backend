@@ -57,7 +57,7 @@ class WalletDeleteControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void deleteWalletById_correctDeletion() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doNothing().when(walletService).deleteWallet(WALLET_ID_1L, USER_ID_1L);
@@ -77,7 +77,7 @@ class WalletDeleteControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void deleteWalletById_walletNotExists_shouldReturnStatusNotFound() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doThrow(new AppRuntimeException(ErrorCode.W001, "Wallet not exists"))
@@ -98,7 +98,7 @@ class WalletDeleteControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void deleteWalletById_walletIdIsZero_shouldReturnStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         // when

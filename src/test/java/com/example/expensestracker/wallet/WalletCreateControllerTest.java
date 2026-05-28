@@ -68,8 +68,8 @@ class WalletCreateControllerTest {
     @DisplayName("Should return status 201 Created and walletDTO for valid input")
     void createWallet_withValidData_ReturnsCreatedWithWalletDTO() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
-        WalletDTO walletDTO = TestUtils.createWalletDTOForTest(USER_ID_1L);
+        User user = TestUtils.createUser(USER_EMAIL);
+        WalletDTO walletDTO = TestUtils.createWalletDTO(USER_ID_1L);
         WalletCreateDTO createDTO = new WalletCreateDTO(EXAMPLE_WALLET_NAME);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -97,7 +97,7 @@ class WalletCreateControllerTest {
     @DisplayName("Should return status Bad Request when input wallet name is to long")
     void createWallet_walletNameToLong_ReturnsAnException() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         WalletCreateDTO createDTO = new WalletCreateDTO(WALLET_NAME_TO_LONG);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -122,7 +122,7 @@ class WalletCreateControllerTest {
     @DisplayName("Should return status Bad Request when input wallet name is to short")
     void createWallet_walletNameToShort_ReturnsAnException() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         WalletCreateDTO createDTO = new WalletCreateDTO(WALLET_NAME_TO_SHORT);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -146,7 +146,7 @@ class WalletCreateControllerTest {
     @DisplayName("Should return status Bad Request when input wallet name is blank")
     void createWallet_walletNameIsBlank_ReturnsAnException() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         WalletCreateDTO createDTO = new WalletCreateDTO("        ");
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);

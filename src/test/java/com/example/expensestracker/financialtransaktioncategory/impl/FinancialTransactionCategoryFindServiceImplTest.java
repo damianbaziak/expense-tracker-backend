@@ -53,7 +53,7 @@ class FinancialTransactionCategoryFindServiceImplTest {
     @DisplayName("Should returns financial transaction category detailed DTO")
     void findFinancialTransactionCategoryForUser_transactionCategoryExist_returnsFTCDetailedDTO() {
         // given
-        FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
+        FinancialTransactionCategory financialTransactionCategory = TestUtils.createTransactionCategory(
                 CATEGORY_ID_1L, EXPENSE);
         when(financialTransactionCategoryRepository.findByIdAndUserId(CATEGORY_ID_1L, USER_ID_1L))
                 .thenReturn(Optional.of(financialTransactionCategory));
@@ -62,7 +62,7 @@ class FinancialTransactionCategoryFindServiceImplTest {
                 .thenReturn(NUMBER_OF_FINANCIAL_TRANSACTIONS);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO =
-                TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);
+                TestUtils.createFinancialTransactionCategoryDTO(EXPENSE, USER_ID_1L);
         when(financialTransactionCategoryModelMapper
                 .mapFinancialTransactionCategoryEntityToFinancialTransactionCategoryDTO(financialTransactionCategory))
                 .thenReturn(financialTransactionCategoryDTO);
@@ -105,15 +105,15 @@ class FinancialTransactionCategoryFindServiceImplTest {
     @DisplayName("Should return a list of FinancialTransactionCategoryDTOs")
     void findFinancialTransactionCategories_categoriesExist_shouldReturnCategoriesDTOsList() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         List<FinancialTransactionCategory> financialTransactionCategories =
-                TestUtils.createFinancialTransactionCategoryListForTest(3, EXPENSE, user);
+                TestUtils.createTransactionCategories(3, EXPENSE, user);
         when(financialTransactionCategoryRepository.findAllByUserId(USER_ID_1L)).thenReturn(
                 financialTransactionCategories);
 
         List<FinancialTransactionCategoryDTO> financialTransactionCategoryDTOList =
-                TestUtils.createFinancialTransactionCategoryDTOListForTest(3, EXPENSE, USER_ID_1L);
+                TestUtils.createTransactionCategoriesDTOS(3, EXPENSE, USER_ID_1L);
 
         // when
         List<FinancialTransactionCategoryDTO> result =

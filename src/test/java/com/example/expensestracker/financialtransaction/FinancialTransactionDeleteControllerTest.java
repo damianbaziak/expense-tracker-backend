@@ -57,7 +57,7 @@ class FinancialTransactionDeleteControllerTest {
     @DisplayName("Should return status OK and a String as a body when transaction deleted correctly")
     void deleteTransactionById_correctDeletion_shouldReturnStatusOKAndStringAsBody() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doNothing().when(financialTransactionService).deleteTransaction(TRANSACTION_ID_1, user.getId());
@@ -78,7 +78,7 @@ class FinancialTransactionDeleteControllerTest {
     @DisplayName("Should return status 404 when financial transaction ID not exist")
     void deleteTransactionById_transactionNotExist_shouldReturnStatusNotFound() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doThrow(new AppRuntimeException(ErrorCode.FT001, "Transaction not found")).when(
@@ -100,7 +100,7 @@ class FinancialTransactionDeleteControllerTest {
     @DisplayName("Should return bad request status when financial transaction ID is zero")
     void deleteTransactionById_transactionIdIsZero_shouldReturnStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         // when

@@ -68,8 +68,8 @@ class WalletUpdateControllerTest {
     @DisplayName("Should return status OK and walletDTO with updated name")
     void updateWallet_withValidData_ReturnsStatusOkWithWalletDTO() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
-        WalletDTO walletDTO = TestUtils.createWalletDTOForTest(USER_ID_1L);
+        User user = TestUtils.createUser(USER_EMAIL);
+        WalletDTO walletDTO = TestUtils.createWalletDTO(USER_ID_1L);
         walletDTO.setName(NEW_WALLET_NAME);
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
 
@@ -96,7 +96,7 @@ class WalletUpdateControllerTest {
     @DisplayName("Should return status Bad Request when wallet name is to long")
     void updateWallet_walletNameToLong_ReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
 
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_NAME_TO_LONG);
 
@@ -119,7 +119,7 @@ class WalletUpdateControllerTest {
     @DisplayName("Should return status Bad Request when wallet name is to short")
     void updateWallet_walletNameToShort_ReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
 
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_NAME_TO_SHORT);
 
@@ -142,7 +142,7 @@ class WalletUpdateControllerTest {
     @DisplayName("Should return status Bad Request when wallet name is blank")
     void updateWallet_walletNameIsBlank_ReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
 
         WalletUpdateDTO updateDTO = new WalletUpdateDTO("    ");
 

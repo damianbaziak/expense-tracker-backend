@@ -64,7 +64,7 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         FinancialTransactionCreateDTO transactionCreateDTO = createFinancialTransactionCreateDTO();
         transactionCreateDTO.setWalletId(savedWallet.getId());
@@ -113,9 +113,9 @@ public class FinancialTransactionCreateIT extends IntegrationTest {
 
         // Creating INCOME category for createDTO, but transaction will be EXPENSE - type mismatch.
         FinancialTransactionCategory transactionCategory = transactionCategoryRepository.save(
-                TestUtils.createFinancialTransactionCategoryForTest(INCOME, user));
+                TestUtils.createTransactionCategoryWithoutId(INCOME, user));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         FinancialTransactionCreateDTO createDTO = createFinancialTransactionCreateDTO();
         createDTO.setCategoryId(transactionCategory.getId());

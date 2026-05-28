@@ -51,7 +51,7 @@ class FinancialTransactionCategoryUpdateServiceImplTest {
         FinancialTransactionCategoryUpdateDTO categoryUpdateDTO =
                 new FinancialTransactionCategoryUpdateDTO(NEW_EXAMPLE_CATEGORY_NAME, NEW_TRANSACTION_TYPE);
 
-        FinancialTransactionCategory existingCategory = TestUtils.createFinancialTransactionCategoryForTest(
+        FinancialTransactionCategory existingCategory = TestUtils.createTransactionCategory(
                 CATEGORY_ID_1L, EXPENSE);
 
         FinancialTransactionCategoryDTO expectedCategoryDTO = new FinancialTransactionCategoryDTO();
@@ -76,8 +76,8 @@ class FinancialTransactionCategoryUpdateServiceImplTest {
         // then
         Assertions.assertAll(
                 () -> assertEquals(expectedCategoryDTO, result),
-                () -> assertEquals(categoryUpdateDTO.getName(), existingCategory.getName()),
-                () -> assertEquals(categoryUpdateDTO.getType(), existingCategory.getType()));
+                () -> assertEquals(categoryUpdateDTO.name(), existingCategory.getName()),
+                () -> assertEquals(categoryUpdateDTO.type(), existingCategory.getType()));
         verify(userRepository, times(1)).findById(USER_ID_1L);
         verify(financialTransactionCategoryModelMapper, times(1))
                 .mapFinancialTransactionCategoryEntityToFinancialTransactionCategoryDTO(

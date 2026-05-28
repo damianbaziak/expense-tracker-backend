@@ -56,7 +56,7 @@ class FinancialTransactionUpdateServiceImplTest {
     @DisplayName("Should update financial transaction and return updated DTO")
     void updateFinancialTransaction_validParameters_returnFinancialTransactionDTO() {
         // given
-        FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
+        FinancialTransactionCategory financialTransactionCategory = TestUtils.createTransactionCategory(
                 CATEGORY_ID_1L, EXPENSE);
 
         FinancialTransactionUpdateDTO transactionUpdateDTO = createTransactionUpdateDTO();

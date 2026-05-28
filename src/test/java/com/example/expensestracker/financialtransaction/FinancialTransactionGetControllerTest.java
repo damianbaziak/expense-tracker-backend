@@ -77,8 +77,8 @@ class FinancialTransactionGetControllerTest {
     @DisplayName("Should return status OK and all financial transactions list")
     void getFinancialTransactionsByWalletId_transactionsExist_shouldReturnFinancialTransactionsList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
-        List<FinancialTransactionDTO> financialTransactionDTOS = TestUtils.createTransactionsDTOsForTest(
+        User user = TestUtils.createUser();
+        List<FinancialTransactionDTO> financialTransactionDTOS = TestUtils.createTransactionsDTOS(
                 3, EXPENSE, CATEGORY_ID_1L);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
@@ -110,7 +110,7 @@ class FinancialTransactionGetControllerTest {
     @DisplayName("Should return an empty list and status OK when there are no financial transactions in the wallet")
     void getFinancialTransactionsByWalletId_noFinancialTransactionsExist_shouldReturnEmptyList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
         when(financialTransactionService.findFinancialTransactionsByWalletId(WALLET_ID_1L, USER_ID_1L))
@@ -132,8 +132,8 @@ class FinancialTransactionGetControllerTest {
     @DisplayName("Should return financial transaction and status OK")
     void getTransactionById_transactionExist_shouldReturnFinancialTransaction() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
-        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(INCOME);
+        User user = TestUtils.createUser();
+        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTO(INCOME);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
         when(financialTransactionService.findFinancialTransactionForUser(ID_1, USER_ID_1L)).thenReturn(
                 financialTransactionDTO);
@@ -156,7 +156,7 @@ class FinancialTransactionGetControllerTest {
     @DisplayName("Should return status 404 - not found when financial transaction with given ID not exist")
     void getTransactionById_transactionNotExist_shouldReturnsStatusNotFound() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
         doThrow(new AppRuntimeException(ErrorCode.FT001, "Transaction not found")).when(
                 financialTransactionService).findFinancialTransactionForUser(ID_1, USER_ID_1L);

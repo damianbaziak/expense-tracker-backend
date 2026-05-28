@@ -50,10 +50,10 @@ class FinancialTransactionCategoryCreateServiceImplTest {
                 new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, EXPENSE);
 
         FinancialTransactionCategory financialTransactionCategoryEntity =
-                TestUtils.createFinancialTransactionCategoryForTest(ID_1L, EXPENSE);
+                TestUtils.createTransactionCategory(ID_1L, EXPENSE);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO
-                = TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);
+                = TestUtils.createFinancialTransactionCategoryDTO(EXPENSE, USER_ID_1L);
 
         when(financialTransactionCategoryRepository.save(
                 any(FinancialTransactionCategory.class))).thenReturn(financialTransactionCategoryEntity);

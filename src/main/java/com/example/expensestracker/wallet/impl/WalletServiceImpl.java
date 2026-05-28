@@ -150,7 +150,7 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
-    public List<WalletDTO> findAllByNameIgnoreCase(String name, Long userId) {
+    public List<WalletDTO> findAllByNameLikeIgnoreCase(String name, Long userId) {
         return walletRepository.findAllByUserIdAndNameIsContainingIgnoreCase(userId, name)
                 .stream()
                 .map(wallet -> {

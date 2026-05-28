@@ -66,14 +66,14 @@ class FinancialTransactionCategoryCreateControllerTest {
     @DisplayName("Should returns status created - 201 and financial transaction category")
     void createCategory_forValidParameters_shouldReturnsFTCDTO() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionCategoryCreateDTO categoryCreateDTO =
                 new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, EXPENSE);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO =
-                TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);
+                TestUtils.createFinancialTransactionCategoryDTO(EXPENSE, USER_ID_1L);
 
         when(financialTransactionCategoryService.createCategory(categoryCreateDTO, USER_ID_1L))
                 .thenReturn(financialTransactionCategoryDTO);
@@ -98,7 +98,7 @@ class FinancialTransactionCategoryCreateControllerTest {
     @DisplayName("Should returns bad request status when financialTransactionType is null")
     void createCategory_financialTransactionTypeNull_shouldReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, null);
@@ -119,7 +119,7 @@ class FinancialTransactionCategoryCreateControllerTest {
     @DisplayName("Should returns bad request status when name is blank")
     void createCategory_fieldNameBlank_shouldReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO("   ", EXPENSE);
@@ -140,7 +140,7 @@ class FinancialTransactionCategoryCreateControllerTest {
     @DisplayName("Should returns bad request status when name is to long")
     void createCategory_nameToLong_shouldReturnsStatusBadRequest() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         FinancialTransactionCategoryCreateDTO categoryCreateDTO
                 = new FinancialTransactionCategoryCreateDTO(CATEGORY_NAME_TO_LONG, EXPENSE);

@@ -56,10 +56,10 @@ class FinancialTransactionFindServiceImplTest {
     @DisplayName("Should return financial transactions DTOs")
     void findFinancialTransactionsByWalletId_transactionsExist_returnFinancialTransactionDTOs() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
 
-        List<FinancialTransaction> ftList = TestUtils.createTransactionsForTest(
+        List<FinancialTransaction> ftList = TestUtils.createTransactions(
                 3, wallet, EXPENSE);
 
         when(walletRepository.findByIdAndUserId(WALLET_ID_1L, user.getId())).thenReturn(Optional.of(wallet));
@@ -95,7 +95,7 @@ class FinancialTransactionFindServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException when wallet not exist")
     void findFinancialTransactionsByWalletId_walletNotExist_throwAppRuntimeException() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(walletRepository.findByIdAndUserId(2L, user.getId())).thenReturn(Optional.empty());
 
@@ -112,8 +112,8 @@ class FinancialTransactionFindServiceImplTest {
     @DisplayName("Should return an empty List when there are no financial transactions in the wallet")
     void findFinancialTransactionsByWalletId_noFinancialTransactions_returnEmptyList() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
 
         when(walletRepository.findByIdAndUserId(WALLET_ID_1L, user.getId())).thenReturn(Optional.of(wallet));
         when(financialTransactionRepository.findAllByWalletIdAndWalletUserIdOrderByDateDesc(
@@ -132,8 +132,8 @@ class FinancialTransactionFindServiceImplTest {
     @DisplayName("Should retrieve transaction by ID and walletUserId")
     void findFinancialTransactionForUser_whenTransactionExist_shouldReturnTransaction() {
         // given
-        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(INCOME);
-        FinancialTransactionCategory financialTransactionCategory = TestUtils.createFinancialTransactionCategoryForTest(
+        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTO(INCOME);
+        FinancialTransactionCategory financialTransactionCategory = TestUtils.createTransactionCategory(
                 ID_1L, INCOME);
         FinancialTransaction financialTransaction = TestUtils.createTransactionForTest(
                 INCOME, financialTransactionCategory);

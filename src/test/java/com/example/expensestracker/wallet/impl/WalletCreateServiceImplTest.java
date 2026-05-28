@@ -46,9 +46,9 @@ class WalletCreateServiceImplTest {
     @DisplayName("Should create wallet and return walletDTO")
     void createWallet_withValidParameters_shouldReturnWallet() {
         // given
-        User walletOwner = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(ID_1L, walletOwner);
-        WalletDTO walletDTO = TestUtils.createWalletDTOForTest(USER_ID_1L);
+        User walletOwner = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(ID_1L, walletOwner);
+        WalletDTO walletDTO = TestUtils.createWalletDTO(USER_ID_1L);
         WalletCreateDTO createDTO = new WalletCreateDTO(EXAMPLE_WALLET_NAME);
 
         when(walletRepository.save(any(Wallet.class))).thenReturn(wallet);

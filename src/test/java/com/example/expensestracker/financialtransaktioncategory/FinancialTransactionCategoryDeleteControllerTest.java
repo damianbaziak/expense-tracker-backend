@@ -54,7 +54,7 @@ class FinancialTransactionCategoryDeleteControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void deleteFinancialTransactionCategory_correctDeletion() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doNothing().when(financialTransactionCategoryService).deleteCategory(ID_1L, USER_ID_1L);
@@ -75,7 +75,7 @@ class FinancialTransactionCategoryDeleteControllerTest {
     @DisplayName("Should return status 404 when category ID not exist")
     void deleteCategoryById_categoryNotExist_shouldReturnStatusNotFound() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doThrow(new AppRuntimeException(ErrorCode.FTC001, "Category not found")).when(
@@ -95,7 +95,7 @@ class FinancialTransactionCategoryDeleteControllerTest {
     @DisplayName("Should return bad request status when category ID is zero")
     void deleteCategoryById_categoryIdIsZero_shouldReturnBadRequestStatus() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         // when

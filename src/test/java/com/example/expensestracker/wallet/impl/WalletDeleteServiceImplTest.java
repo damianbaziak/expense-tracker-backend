@@ -37,8 +37,8 @@ class WalletDeleteServiceImplTest {
     @DisplayName("Should call the delete method once")
     void deleteWallet_walletExists_deletedSuccessfully() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when
@@ -54,7 +54,7 @@ class WalletDeleteServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException")
     void deleteWallet_walletNotExists_throwAnException() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.empty());
 
         // when
@@ -76,8 +76,8 @@ class WalletDeleteServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException when user has no permissions to delete that wallet")
     void deleteWallet_userHasNoPermissions_throwAnException() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when

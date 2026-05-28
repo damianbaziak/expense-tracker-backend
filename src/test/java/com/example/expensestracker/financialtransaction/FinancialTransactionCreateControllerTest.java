@@ -71,9 +71,9 @@ class FinancialTransactionCreateControllerTest {
     @DisplayName("Should return financial transaction and status 201-Created")
     void createFinancialTransaction_validData_shouldReturnFinancialTransactionAndStatusCreated() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
-        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTOForTest(EXPENSE);
+        FinancialTransactionDTO financialTransactionDTO = TestUtils.createFinancialTransactionDTO(EXPENSE);
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
@@ -100,7 +100,7 @@ class FinancialTransactionCreateControllerTest {
         // given
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
         financialTransactionCreateDTO.setType(null);
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
@@ -121,7 +121,7 @@ class FinancialTransactionCreateControllerTest {
         // given
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
         financialTransactionCreateDTO.setAmount(negativeAmount);
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
@@ -142,7 +142,7 @@ class FinancialTransactionCreateControllerTest {
         // given
         FinancialTransactionCreateDTO financialTransactionCreateDTO = createFinancialTransactionCreateDTO();
         financialTransactionCreateDTO.setAmount(invalidAmountFormat);
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 

@@ -70,7 +70,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status OK and userDTO with new username for valid input")
     void updateUsername_validInput_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserUsernameUpdateDTO updateDTO = new UserUsernameUpdateDTO(USERNAME);
@@ -96,7 +96,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when username is blank")
     void updateUsername_usernameIsBlank_shouldReturnStatusBadRequest() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserUsernameUpdateDTO updateDTO = new UserUsernameUpdateDTO("     ");
@@ -115,7 +115,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when username is to long")
     void updateUsername_usernameToLong_shouldReturnStatusBadRequest() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserUsernameUpdateDTO updateDTO = new UserUsernameUpdateDTO(TO_LONG_USERNAME);
@@ -135,7 +135,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status OK and userDTO with new email for valid input")
     void updateEmail_validInput_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserEmailUpdateDTO updateDTO = new UserEmailUpdateDTO(EMAIL);
@@ -161,7 +161,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when email pattern is wrong")
     void updateEmail_wrongPattern_shouldReturnBadRequestStatus() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserEmailUpdateDTO updateDTO = new UserEmailUpdateDTO("wrongPattern.pl");
@@ -180,7 +180,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when email is null")
     void updateEmail_emailIsNull_shouldReturnBadRequestStatus() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserEmailUpdateDTO updateDTO = new UserEmailUpdateDTO(null);
@@ -200,7 +200,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status OK and userDTO with new password for valid input")
     void updatePassword_validInput_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserPasswordUpdateDTO updateDTO = new UserPasswordUpdateDTO(PASSWORD);
@@ -227,7 +227,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when password is blank")
     void updatePassword_passwordIsBlank_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserPasswordUpdateDTO updateDTO = new UserPasswordUpdateDTO("    ");
@@ -246,7 +246,7 @@ class UserUpdateControllerTest {
     @DisplayName("Should return HTTP status Bad Request when password is to long")
     void updatePassword_passwordToLong_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest(EMAIL);
+        User userPrincipal = TestUtils.createUser(EMAIL);
         when(userService.findUserByEmail(EMAIL)).thenReturn(userPrincipal);
 
         UserPasswordUpdateDTO updateDTO = new UserPasswordUpdateDTO(PASSWORD_1_CHAR_MORE);

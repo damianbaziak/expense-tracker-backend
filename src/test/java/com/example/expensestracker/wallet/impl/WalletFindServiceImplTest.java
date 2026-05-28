@@ -57,7 +57,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should return walletDTO by existing wallet")
     void findById_whenWalletExists_shouldReturnsWalletDTO() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when
@@ -90,7 +90,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException when user has no permissions")
     void findById_userHasNoPermissions_shouldThrowsException() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
 
         // when and then
@@ -105,7 +105,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Calculate balance correctly for existing wallet")
     void findById_calculatesBalanceCorrectly() {
         // given
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, User.builder().id(USER_ID_1L).build());
         List<FinancialTransaction> transactions = createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_1, EXPENSE_AMOUNT_1);
 
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
@@ -125,10 +125,10 @@ class WalletFindServiceImplTest {
     @DisplayName("Should return list of walletDTOs when user has wallets")
     void findAllWallets_userHasWallets_shouldReturnListOfWallets() {
         // given
-        List<Wallet> walletList = TestUtils.createWalletListForTest(3, User.builder().id(USER_ID_1L).build());
+        List<Wallet> walletList = TestUtils.createWallets(3, User.builder().id(USER_ID_1L).build());
         when(walletRepository.findAllByUserIdOrderByNameAsc(USER_ID_1L)).thenReturn(walletList);
 
-        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOListForTest(3, USER_ID_1L);
+        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOS(3, USER_ID_1L);
 
         // when
         List<WalletDTO> result = walletService.findAllWallets(USER_ID_1L);
@@ -159,7 +159,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should calculate balances correctly for all retrieving wallets")
     void findAllWallets_calculateBalancesCorrectly() {
         // given
-        List<Wallet> walletList = TestUtils.createWalletListForTest(3, User.builder().id(USER_ID_1L).build());
+        List<Wallet> walletList = TestUtils.createWallets(3, User.builder().id(USER_ID_1L).build());
         List<List<FinancialTransaction>> transactionsForAllWallets = List.of(
                 createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_1, EXPENSE_AMOUNT_1),
                 createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_2, EXPENSE_AMOUNT_2),
@@ -189,15 +189,15 @@ class WalletFindServiceImplTest {
     @DisplayName("Should return all wallets that names partially match the given name, ignoring case")
     void findAllByNameIgnoreCase_ReturnsAllPartiallyMatchingWallets() {
         // given
-        List<Wallet> walletList = TestUtils.createWalletListForTest(3, User.builder().id(USER_ID_1L).build());
+        List<Wallet> walletList = TestUtils.createWallets(3, User.builder().id(USER_ID_1L).build());
 
         when(walletRepository.findAllByUserIdAndNameIsContainingIgnoreCase(USER_ID_1L, "wallet"))
                 .thenReturn(walletList);
 
-        List<WalletDTO> walletDTOs = TestUtils.createWalletDTOListForTest(3, USER_ID_1L);
+        List<WalletDTO> walletDTOs = TestUtils.createWalletDTOS(3, USER_ID_1L);
 
         // when
-        List<WalletDTO> result = walletService.findAllByNameIgnoreCase("wallet", USER_ID_1L);
+        List<WalletDTO> result = walletService.findAllByNameLikeIgnoreCase("wallet", USER_ID_1L);
 
         // then
         Assertions.assertAll(
@@ -209,7 +209,7 @@ class WalletFindServiceImplTest {
     @DisplayName("Should calculate balances correctly for all retrieving wallets")
     void findAllByNameIgnoreCase_calculateBalanceCorrectly() {
         // given
-        List<Wallet> walletList = TestUtils.createWalletListForTest(3, User.builder().id(USER_ID_1L).build());
+        List<Wallet> walletList = TestUtils.createWallets(3, User.builder().id(USER_ID_1L).build());
         List<List<FinancialTransaction>> transactionsForAllWallets = List.of(
                 createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_1, EXPENSE_AMOUNT_1),
                 createIncomeAndExpenseTransactionsForWallet(INCOME_AMOUNT_2, EXPENSE_AMOUNT_2),
@@ -223,7 +223,7 @@ class WalletFindServiceImplTest {
         }
 
         // when
-        List<WalletDTO> result = walletService.findAllByNameIgnoreCase("wallet", USER_ID_1L);
+        List<WalletDTO> result = walletService.findAllByNameLikeIgnoreCase("wallet", USER_ID_1L);
 
         // then
         Assertions.assertNotNull(result);

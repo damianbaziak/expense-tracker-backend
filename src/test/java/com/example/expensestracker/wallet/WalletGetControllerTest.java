@@ -67,10 +67,10 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP status OK and a list of wallet DTOs when wallets exist")
     void getWallets_walletsExist_shouldReturnWalletsList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
-        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOListForTest(3, USER_ID_1L);
+        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOS(3, USER_ID_1L);
 
         when(walletService.findAllWallets(USER_ID_1L)).thenReturn(walletDTOS);
 
@@ -95,7 +95,7 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP status Not Found and a string as a body")
     void getWallets_userHasNoWallets_shouldReturnNotFoundStatus() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doThrow(new AppRuntimeException(ErrorCode.W001, NO_WALLETS_DESCRIPTION)).when(walletService)
@@ -116,10 +116,10 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP status OK and a wallet DTO when wallet exists")
     void getWalletById_whenWalletExists_shouldReturnWalletDTO() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
-        WalletDTO walletDTO = TestUtils.createWalletDTOForTest(USER_ID_1L);
+        WalletDTO walletDTO = TestUtils.createWalletDTO(USER_ID_1L);
         when(walletService.findById(WALLET_ID_1L, USER_ID_1L)).thenReturn(walletDTO);
 
         // when
@@ -139,7 +139,7 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP status Not Found and string as a body when wallet not exists")
     void getWalletById_walletNotExists_shouldReturnNotFoundStatus() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         doThrow(new AppRuntimeException(ErrorCode.W001, WALLET_NOT_EXIST_DESCRIPTION))
@@ -159,12 +159,12 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP OK and wallets matching the partial name")
     void getAllByNameLikeIgnoreCase_matchingWalletsExist_ShouldReturnThem() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
-        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOListForTest(3, USER_ID_1L);
+        List<WalletDTO> walletDTOS = TestUtils.createWalletDTOS(3, USER_ID_1L);
 
-        when(walletService.findAllByNameIgnoreCase(PARTIALLY_WALLET_NAME, USER_ID_1L)).thenReturn(walletDTOS);
+        when(walletService.findAllByNameLikeIgnoreCase(PARTIALLY_WALLET_NAME, USER_ID_1L)).thenReturn(walletDTOS);
 
         // when
         ResultActions result = mockMvc.perform(get("/api/wallets/wallets/{name}", PARTIALLY_WALLET_NAME));
@@ -186,10 +186,10 @@ class WalletGetControllerTest {
     @DisplayName("Should return HTTP status No Content and an empty list")
     void getAllByNameLikeIgnoreCase_matchingWalletsNotExist_shouldReturnEmptyList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest(USER_EMAIL);
+        User user = TestUtils.createUser(USER_EMAIL);
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
-        when(walletService.findAllByNameIgnoreCase(PARTIALLY_WALLET_NAME, USER_ID_1L))
+        when(walletService.findAllByNameLikeIgnoreCase(PARTIALLY_WALLET_NAME, USER_ID_1L))
                 .thenReturn(Collections.emptyList());
 
         // when

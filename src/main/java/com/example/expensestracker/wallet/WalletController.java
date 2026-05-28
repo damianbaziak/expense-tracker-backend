@@ -96,7 +96,7 @@ public class WalletController {
         User user = userService.findUserByEmail(email);
         Long userId = user.getId();
 
-        List<WalletDTO> walletDTOs = walletService.findAllByNameIgnoreCase(name, userId);
+        List<WalletDTO> walletDTOs = walletService.findAllByNameLikeIgnoreCase(name, userId);
 
         if (walletDTOs.isEmpty()) {
             return new ResponseEntity<>(walletDTOs, HttpStatus.NO_CONTENT);

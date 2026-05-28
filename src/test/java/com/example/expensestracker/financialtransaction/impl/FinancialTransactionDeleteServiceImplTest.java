@@ -30,7 +30,7 @@ class FinancialTransactionDeleteServiceImplTest {
     @DisplayName("Should call the delete method once")
     void deleteTransaction_transactionExist() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(financialTransactionRepository.existsByIdAndWalletUserId(
                 TRANSACTION_ID_1L, user.getId())).thenReturn(Boolean.TRUE);
 
@@ -49,7 +49,7 @@ class FinancialTransactionDeleteServiceImplTest {
     @DisplayName("Should return an AppRuntimeException")
     void deleteTransaction_transactionNotExist() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(financialTransactionRepository.existsByIdAndWalletUserId(
                 TRANSACTION_ID_1L, user.getId())).thenReturn(Boolean.FALSE);
 

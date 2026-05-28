@@ -7,6 +7,8 @@ import com.example.expensestracker.financialtransaction.FinancialTransactionCont
 import com.example.expensestracker.financialtransaction.api.FinancialTransactionRepository;
 import com.example.expensestracker.financialtransaction.api.model.FinancialTransaction;
 import com.example.expensestracker.financialtransaction.api.model.FinancialTransactionType;
+import com.example.expensestracker.financialtransaktioncategory.api.FinancialTransactionCategoryModelMapper;
+import com.example.expensestracker.financialtransaktioncategory.api.dto.FinancialTransactionCategoryDTO;
 import com.example.expensestracker.general.exception.ErrorCode;
 import com.example.expensestracker.user.api.UserRepository;
 import com.example.expensestracker.user.api.model.User;
@@ -57,10 +59,10 @@ public class FinancialTransactionGetIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         FinancialTransaction financialTransaction =
-                TestUtils.createTransactionForTestWithoutId(FinancialTransactionType.EXPENSE);
+                TestUtils.createTransactionWithoutId(FinancialTransactionType.EXPENSE);
         financialTransaction.setWallet(savedWallet);
 
         FinancialTransaction savedFinancialTransaction = transactionRepository.save(financialTransaction);
@@ -86,10 +88,10 @@ public class FinancialTransactionGetIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         FinancialTransaction financialTransaction =
-                TestUtils.createTransactionForTestWithoutId(FinancialTransactionType.EXPENSE);
+                TestUtils.createTransactionWithoutId(FinancialTransactionType.EXPENSE);
         financialTransaction.setWallet(savedWallet);
         transactionRepository.save(financialTransaction);
 
@@ -115,9 +117,9 @@ public class FinancialTransactionGetIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
-        List<FinancialTransaction> savedTransactions = saveTransactionsToDatabase(savedWallet);
+        List<FinancialTransaction> savedTransactions = createAndSaveTransactionsToDatabase(savedWallet);
 
         // when and then
         ResultActions resultActions =
@@ -145,9 +147,9 @@ public class FinancialTransactionGetIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
-        saveTransactionsToDatabase(savedWallet);
+        createAndSaveTransactionsToDatabase(savedWallet);
 
         // when and then
         // Wallet whit id:123
@@ -177,9 +179,9 @@ public class FinancialTransactionGetIT extends IntegrationTest {
                 .build();
     }
 
-    private List<FinancialTransaction> saveTransactionsToDatabase(Wallet wallet) {
+    private List<FinancialTransaction> createAndSaveTransactionsToDatabase(Wallet wallet) {
         List<FinancialTransaction> financialTransactions =
-                TestUtils.createTransactionsForTestWithoutIDs(3, wallet, FinancialTransactionType.EXPENSE);
+                TestUtils.createTransactionsWithoutIDs(3, wallet, FinancialTransactionType.EXPENSE);
 
         for (FinancialTransaction financialTransaction : financialTransactions) {
             transactionRepository.save(financialTransaction);

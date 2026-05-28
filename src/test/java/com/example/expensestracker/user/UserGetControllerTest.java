@@ -65,7 +65,7 @@ class UserGetControllerTest {
     @DisplayName("Should return HTTP status OK and userDTO when user exists")
     void getUserById_whenUserExists_shouldReturnUserDTO() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest();
+        User userPrincipal = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(userPrincipal);
 
         UserDTO userDTO = new UserDTO(
@@ -87,7 +87,7 @@ class UserGetControllerTest {
     @DisplayName("Should return HTTP status Not Found when user doesn't exist")
     void getUserById_whenUserNotExist_shouldReturnStatusNotFound() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest();
+        User userPrincipal = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(userPrincipal);
 
         doThrow(new AppRuntimeException(ErrorCode.U003, "User does not exist"))
@@ -109,7 +109,7 @@ class UserGetControllerTest {
     @DisplayName("Should return HTTP status Forbidden when user doesn't have permissions")
     void getUserById_whenUserHasNoPermissions_shouldReturnStatusForbidden() throws Exception {
         // given
-        User userPrincipal = TestUtils.createUserForTest();
+        User userPrincipal = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(userPrincipal);
 
         doThrow(new AppRuntimeException(ErrorCode.U004, "You can only access you own data"))

@@ -1,12 +1,14 @@
 package com.example.expensestracker.financialtransaktioncategory.api;
 
 import com.example.expensestracker.financialtransaktioncategory.api.model.FinancialTransactionCategory;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface FinancialTransactionCategoryRepository extends CrudRepository<FinancialTransactionCategory, Long> {
+@Repository
+public interface FinancialTransactionCategoryRepository extends JpaRepository<FinancialTransactionCategory, Long> {
     List<FinancialTransactionCategory> findAllByUserId(Long userId);
 
     Optional<FinancialTransactionCategory> findByIdAndUserId(Long id, Long userId);

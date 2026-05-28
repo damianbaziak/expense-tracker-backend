@@ -61,7 +61,7 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         FinancialTransaction savedTransaction = transactionRepository.save(createFinancialTransaction(savedWallet));
 
@@ -89,7 +89,7 @@ public class FinancialTransactionUpdateIT extends IntegrationTest {
         userRepository.save(user);
         String accessToken = jwtService.generateToken(userDetailsService.loadUserByUsername(user.getEmail()));
 
-        Wallet savedWallet = walletRepository.save(TestUtils.createWalletForTestWithoutId(user));
+        Wallet savedWallet = walletRepository.save(TestUtils.createWalletWithoutId(user));
 
         // Transaction saved with a custom ID.
         transactionRepository.save(createFinancialTransaction(savedWallet));

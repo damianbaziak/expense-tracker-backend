@@ -72,7 +72,7 @@ class FinancialTransactionCategoryGetControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void getFinancialCategoryById_categoryNotExist_returnsNotFound() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         Mockito.doThrow(new AppRuntimeException(ErrorCode.FTC001, "Category not found")).when(financialTransactionCategoryService)
@@ -96,11 +96,11 @@ class FinancialTransactionCategoryGetControllerTest {
     @WithMockUser(username = USER_EMAIL)
     void getFinancialCategoryById_categoryExist_returnsFTCategoryDetailedDTO() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionCategoryDTO financialTransactionCategoryDTO =
-                TestUtils.createFinancialTransactionCategoryDTOForTest(EXPENSE, USER_ID_1L);
+                TestUtils.createFinancialTransactionCategoryDTO(EXPENSE, USER_ID_1L);
         financialTransactionCategoryDTO.setCreationDate(DATE);
 
         BigInteger numberOfTransactions = new BigInteger("4");
@@ -152,11 +152,11 @@ class FinancialTransactionCategoryGetControllerTest {
     @DisplayName("Should returns status OK and financial transaction categories list")
     void getFinancialTransactionCategories_categoriesExist_returnsCategoriesList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         List<FinancialTransactionCategoryDTO> financialTransactionCategoryDTOList =
-                TestUtils.createFinancialTransactionCategoryDTOListForTest(3, EXPENSE, USER_ID_1L);
+                TestUtils.createTransactionCategoriesDTOS(3, EXPENSE, USER_ID_1L);
         when(financialTransactionCategoryService.findFinancialTransactionCategories(USER_ID_1L)).thenReturn(
                 financialTransactionCategoryDTOList);
 
@@ -181,7 +181,7 @@ class FinancialTransactionCategoryGetControllerTest {
     @DisplayName("Should returns status OK and an empty List when no categories exist")
     void getFinancialTransactionCategories_noCategoriesExist_returnsEmptyList() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         when(financialTransactionCategoryService.findFinancialTransactionCategories(USER_ID_1L)).thenReturn(

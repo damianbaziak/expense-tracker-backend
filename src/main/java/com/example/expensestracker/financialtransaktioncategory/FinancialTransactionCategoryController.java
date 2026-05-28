@@ -87,7 +87,6 @@ public class FinancialTransactionCategoryController {
                         id, categoryUpdateDTO, userId);
 
         return new ResponseEntity<>(financialTransactionCategoryDTO, HttpStatus.OK);
-
     }
 
 

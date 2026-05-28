@@ -18,5 +18,5 @@ public interface WalletService {
 
     List<WalletDTO> findAllWallets(Long userId);
 
-    List<WalletDTO> findAllByNameIgnoreCase(String name, Long userId);
+    List<WalletDTO> findAllByNameLikeIgnoreCase(String name, Long userId);
 }

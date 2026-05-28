@@ -54,8 +54,8 @@ class WalletUpdateServiceImplTest {
     @DisplayName("Should update wallet and return walletDTO")
     void updateWallet_walletExists_shouldReturnWalletDTO() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
 
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
@@ -72,8 +72,8 @@ class WalletUpdateServiceImplTest {
     @DisplayName("Should update wallet and calculate balance based on given transactions")
     void updateWallet_walletExists_calculatesCorrectBalance() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
         List<FinancialTransaction> transactions = createTestTransactions();
 
         mockTransactionRepositoryAndMapperBehaviour(wallet, transactions);
@@ -93,7 +93,7 @@ class WalletUpdateServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException")
     void updateWallet_walletNotExists_throwAnException() {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.empty());
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
         // when
@@ -115,8 +115,8 @@ class WalletUpdateServiceImplTest {
     @DisplayName("Should throw an AppRuntimeException when user has no permissions to update that wallet")
     void updateWallet_userHasNoPermissions_throwAnException() {
         // given
-        User user = TestUtils.createUserForTest();
-        Wallet wallet = TestUtils.createWalletForTest(WALLET_ID_1L, user);
+        User user = TestUtils.createUser();
+        Wallet wallet = TestUtils.createWallet(WALLET_ID_1L, user);
         when(walletRepository.findById(WALLET_ID_1L)).thenReturn(Optional.of(wallet));
         WalletUpdateDTO updateDTO = new WalletUpdateDTO(NEW_WALLET_NAME);
 

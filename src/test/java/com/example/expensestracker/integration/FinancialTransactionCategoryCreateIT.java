@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -32,7 +31,6 @@ public class FinancialTransactionCategoryCreateIT extends IntegrationTest {
     private static final String USER_EMAIL = "example@email.com";
     private static final String EXAMPLE_CATEGORY_NAME = "Example category name_";
     private static final String CATEGORY_NAME_TO_LONG = "sdfasdfas4353432523m45bn4m5nbmnbm2345234";
-
     @Autowired
     private FinancialTransactionCategoryRepository categoryRepository;
     @Autowired
@@ -41,13 +39,12 @@ public class FinancialTransactionCategoryCreateIT extends IntegrationTest {
     private JwtService jwtService;
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
         categoryRepository.deleteAll();
         userRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 
     @Test
@@ -57,20 +54,23 @@ public class FinancialTransactionCategoryCreateIT extends IntegrationTest {
         UserDetails userDetails = loadUserDetailsForToken(user);
         String accessToken = jwtService.generateToken(userDetails);
 
-        FinancialTransactionCategoryCreateDTO financialTransactionCategoryCreateDTO =
-                createCategoryCreateDTO();
+        FinancialTransactionCategoryCreateDTO categoryCreateDTO = createCategoryCreateDTO();
 
         mockMvc.perform(MockMvcRequestBuilders.post(FINANCIAL_TRANSACTION_CATEGORY_URL)
                         .header("Authorization", "Bearer " + accessToken)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(financialTransactionCategoryCreateDTO)))
+                        .content(objectMapper.writeValueAsString(categoryCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(EXAMPLE_CATEGORY_NAME))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.type").value(
                         FinancialTransactionType.INCOME.toString()));
 
         Assertions.assertEquals(1, categoryRepository.count());
+    }
+
+    private FinancialTransactionCategoryCreateDTO createCategoryCreateDTO() {
+        return new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, FinancialTransactionType.INCOME);
     }
 
     @Test
@@ -162,10 +162,6 @@ public class FinancialTransactionCategoryCreateIT extends IntegrationTest {
     private UserDetails loadUserDetailsForToken(User user) {
         String email = user.getEmail();
         return userDetailsService.loadUserByUsername(email);
-    }
-
-    private FinancialTransactionCategoryCreateDTO createCategoryCreateDTO() {
-        return new FinancialTransactionCategoryCreateDTO(EXAMPLE_CATEGORY_NAME, FinancialTransactionType.INCOME);
     }
 
 }

@@ -73,7 +73,7 @@ class FinancialTransactionUpdateControllerTest {
     @DisplayName("Should return status OK and financial transaction")
     void updateFinancialTransaction_validData_shouldReturnFinancialTransactionAndStatusOK() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         FinancialTransactionUpdateDTO ftUpdateDTO = createFinancialTransactionUpdate();
 
@@ -103,7 +103,7 @@ class FinancialTransactionUpdateControllerTest {
     @DisplayName("Should return bad request status when financialTransactionType is null")
     void updateFinancialTransaction_financialTransactionTypeNull_shouldReturnsBadRequestStatus() throws Exception {
         // given
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
         FinancialTransactionUpdateDTO financialTransactionUpdateDTO = createFinancialTransactionUpdate();
@@ -126,7 +126,7 @@ class FinancialTransactionUpdateControllerTest {
         // given
         FinancialTransactionUpdateDTO financialTransactionUpdateDTO = createFinancialTransactionUpdate();
         financialTransactionUpdateDTO.setAmount(invalidAmountFormat);
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
@@ -147,7 +147,7 @@ class FinancialTransactionUpdateControllerTest {
         // given
         FinancialTransactionUpdateDTO financialTransactionUpdateDTO = createFinancialTransactionUpdate();
         financialTransactionUpdateDTO.setAmount(negativeAmount);
-        User user = TestUtils.createUserForTest();
+        User user = TestUtils.createUser();
 
         when(userService.findUserByEmail(USER_EMAIL)).thenReturn(user);
 
