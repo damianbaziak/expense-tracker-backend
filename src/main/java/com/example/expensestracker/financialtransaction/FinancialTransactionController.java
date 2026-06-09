@@ -22,10 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transactions")
 public class FinancialTransactionController {
-
     @Autowired
     private FinancialTransactionService financialTransactionService;
-
     @Autowired
     private UserService userService;
 
@@ -97,6 +95,8 @@ public class FinancialTransactionController {
         return new ResponseEntity<>("Transaction deleted successfully", HttpStatus.OK);
 
     }
+
+
 
 
 }

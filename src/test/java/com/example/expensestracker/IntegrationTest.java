@@ -16,7 +16,6 @@ import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 @Testcontainers
 public abstract class IntegrationTest {
 

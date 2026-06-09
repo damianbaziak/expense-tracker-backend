@@ -151,7 +151,7 @@ class FinancialTransactionFindServiceImplTest {
         Assertions.assertAll(
                 () -> assertEquals(result.getId(), financialTransactionDTO.getId()),
                 () -> assertEquals(result.getAmount(), financialTransactionDTO.getAmount()),
-                () -> assertEquals(result.getType(), INCOME),
+                () -> assertEquals(INCOME, result.getType()),
                 () -> assertEquals(result.getDate(), financialTransactionDTO.getDate()));
 
     }

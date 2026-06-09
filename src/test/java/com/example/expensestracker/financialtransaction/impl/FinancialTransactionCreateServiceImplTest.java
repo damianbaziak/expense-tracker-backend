@@ -36,14 +36,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-// Mockito Initialization:
-// @ExtendWith(MockitoExtension.class) tells JUnit 5 to use Mockito's extension when running the test. This extension is responsible
-// for initializing and configuring all fields annotated with Mockito annotations (such as @Mock, @InjectMocks, etc.) before each test method is executed.
-// Automatic Mock Creation and Injection:
-// The extension automatically creates mock instances for fields annotated with @Mock.
-// It injects these mock instances into the fields of the class under test that are annotated with @InjectMocks, allowing the class to be tested with mocked dependencies.
-// Support for Additional Mockito Features:
-// The extension also supports other Mockito annotations like @Captor (for capturing method arguments) and @Spy (for partial mocking of real objects).
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class FinancialTransactionCreateServiceImplTest {
@@ -53,19 +45,14 @@ class FinancialTransactionCreateServiceImplTest {
     private static final Long CATEGORY_ID = 1L;
     private static final Long WALLET_ID_1L = 1L;
 
-
     @Mock
     private FinancialTransactionRepository ftRepository;
-
     @Mock
     private WalletRepository walletRepository;
-
     @Mock
     private FinancialTransactionModelMapper financialTransactionModelMapper;
-
     @Mock
     private FinancialTransactionCategoryRepository financialTransactionCategoryRepository;
-
     @InjectMocks
     private FinancialTransactionServiceImpl financialTransactionService;
 

@@ -76,8 +76,8 @@ class FinancialTransactionCategoryUpdateServiceImplTest {
         // then
         Assertions.assertAll(
                 () -> assertEquals(expectedCategoryDTO, result),
-                () -> assertEquals(categoryUpdateDTO.name(), existingCategory.getName()),
-                () -> assertEquals(categoryUpdateDTO.type(), existingCategory.getType()));
+                () -> assertEquals(categoryUpdateDTO.name(), result.getName()),
+                () -> assertEquals(categoryUpdateDTO.type(), result.getType()));
         verify(userRepository, times(1)).findById(USER_ID_1L);
         verify(financialTransactionCategoryModelMapper, times(1))
                 .mapFinancialTransactionCategoryEntityToFinancialTransactionCategoryDTO(

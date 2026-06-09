@@ -2,7 +2,6 @@ package com.example.expensestracker.financialtransaction.api;
 
 import com.example.expensestracker.financialtransaction.api.model.FinancialTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.math.BigInteger;
 import java.util.List;

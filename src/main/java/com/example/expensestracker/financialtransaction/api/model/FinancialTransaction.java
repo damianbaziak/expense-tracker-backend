@@ -1,21 +1,23 @@
 package com.example.expensestracker.financialtransaction.api.model;
 
+import com.example.expensestracker.file.service.model.FileData;
 import com.example.expensestracker.financialtransaktioncategory.api.model.FinancialTransactionCategory;
 import com.example.expensestracker.wallet.api.model.Wallet;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.Collections;
+import java.util.List;
 
 @Builder
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "financial_transactions")
+@Entity
 public class FinancialTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,63 +48,16 @@ public class FinancialTransaction {
     @ManyToOne(fetch = FetchType.LAZY)
     private FinancialTransactionCategory financialTransactionCategory;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialTransaction", orphanRemoval = true)
+    private List<FileData> fileData;
+
     private String description;
 
-    public Long getId() {
-        return id;
+    public List<FileData> getFileData() {
+        return Collections.unmodifiableList(fileData);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
-    }
-
-    public FinancialTransactionType getType() {
-        return type;
-    }
-
-    public void setType(FinancialTransactionType type) {
-        this.type = type;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Instant getDate() {
-        return date;
-    }
-
-    public void setDate(Instant date) {
-        this.date = date;
-    }
-
-    public FinancialTransactionCategory getFinancialTransactionCategory() {
-        return financialTransactionCategory;
-    }
-
-    public void setFinancialTransactionCategory(FinancialTransactionCategory financialTransactionCategory) {
-        this.financialTransactionCategory = financialTransactionCategory;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
 
 
