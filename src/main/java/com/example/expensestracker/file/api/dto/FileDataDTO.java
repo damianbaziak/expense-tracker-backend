@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileDataDTO {
-    private String name;
+    private String fileName;
     private String type;
     private Long transactionId;
 }

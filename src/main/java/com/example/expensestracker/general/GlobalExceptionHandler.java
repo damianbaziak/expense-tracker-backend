@@ -62,10 +62,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AppRuntimeException.class)
     public ResponseEntity<ErrorResponseDTO> handleAppRuntimeException(final AppRuntimeException exception) {
-        log.error("handleAppRuntimeException message: {}, description: {}",
-                exception.getMessage(),
-                exception.getDescription()
-        );
+        if (exception.getCause() != null) {
+            log.error("Application exception occurred", exception);
+        } else {
+            log.error("handleAppRuntimeException message: {}, description: {}",
+                    exception.getMessage(),
+                    exception.getDescription()
+            );
+        }
         return new ResponseEntity<>(
                 new ErrorResponseDTO(
                         exception.getErrorCode().getBusinessCode(),

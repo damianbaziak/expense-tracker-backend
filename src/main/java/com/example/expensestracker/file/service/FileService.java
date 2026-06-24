@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public interface FileStorageService {
+public interface FileService {
     FileDataDTO uploadFileForTransaction(MultipartFile file, Long FinancialTransactionId, Long userId) throws IOException;
+
+    byte[] downloadFile(Long fileId, Long userId) throws IOException;
 }

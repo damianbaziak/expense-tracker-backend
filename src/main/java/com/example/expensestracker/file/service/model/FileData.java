@@ -17,7 +17,7 @@ public class FileData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String fileName;
     private String type;
     private String filePath;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,8 +28,8 @@ public class FileData {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFileName() {
+        return fileName;
     }
 
     public String getType() {
@@ -48,19 +48,21 @@ public class FileData {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         FileData fileData = (FileData) o;
-        return Objects.equals(id, fileData.id) && Objects.equals(name, fileData.name) && Objects.equals(type, fileData.type) && Objects.equals(filePath, fileData.filePath) && Objects.equals(financialTransaction, fileData.financialTransaction);
+        return Objects.equals(id, fileData.id) && Objects.equals(fileName, fileData.fileName)
+                && Objects.equals(type, fileData.type) && Objects.equals(filePath, fileData.filePath)
+                && Objects.equals(financialTransaction, fileData.financialTransaction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, filePath, financialTransaction);
+        return Objects.hash(id, fileName, type, filePath, financialTransaction);
     }
 
     @Override
     public String toString() {
         return "FileData{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + fileName + '\'' +
                 ", type='" + type + '\'' +
                 ", filePath='" + filePath + '\'' +
                 ", financialTransaction=" + financialTransaction +
