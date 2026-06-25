@@ -24,7 +24,7 @@ The project was created as a portfolio application to demonstrate backend develo
 * Spring Security
 * MySQL
 * Lombok
-* Maven 4.x
+* Maven
 
 ### Testing
 
